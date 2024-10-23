@@ -1,13 +1,16 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
+using Random = UnityEngine.Random;
 
 public class ImageRecognition : MonoBehaviour
 {
     public GameObject prefab;
+    readonly Dictionary<TrackableId, GameObject> _instances = new Dictionary<TrackableId, GameObject>();
 
     ARTrackedImageManager _arTrackedImageManager;
-    GameObject _instance;
-    Transform _trackedImage;
 
     void Awake()
     {
@@ -16,9 +19,17 @@ public class ImageRecognition : MonoBehaviour
 
     void Update()
     {
-        if (_trackedImage == null)
-            return;
-        Debug.DrawLine(_trackedImage.position, Vector3.one, Color.red);
+        foreach (var img in _arTrackedImageManager.trackables)
+        {
+            if (img.trackingState == TrackingState.None)
+                continue;
+
+            var instTrans = _instances[img.trackableId].transform;
+            instTrans.position = img.transform.position;
+            instTrans.rotation = Quaternion.Slerp(instTrans.rotation, transform.rotation, 0.5f);
+
+            Debug.DrawRay(img.transform.position, img.transform.forward, Color.red);
+        }
     }
 
     void OnEnable()
@@ -35,16 +46,19 @@ public class ImageRecognition : MonoBehaviour
     {
         foreach (var img in args.added)
         {
-            _trackedImage = img.transform;
-
-            if (!_instance)
+            if (!_instances.ContainsKey(img.trackableId))
             {
-                _instance = Instantiate(prefab, _trackedImage.parent, false);
-                _instance.transform.localPosition = _trackedImage.localPosition;
-            }
-            else
-            {
-                _instance.transform.position = _trackedImage.localPosition;
+                var go = Instantiate(prefab, img.transform.parent, false);
+                try
+                {
+                    go.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                _instances.Add(img.trackableId, go);
             }
 
             Debug.Log(img.name);
