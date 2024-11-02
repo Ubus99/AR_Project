@@ -94,7 +94,7 @@
         <mxCell id="04v_0-utMSh1Fu0-i88t-66" value="&lt;div&gt;entry / &amp;lt;NA&amp;gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;do / Track Marker + SubState&lt;br&gt;&lt;/div&gt;&lt;div&gt;exit / Remove 3D Model&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;spacingLeft=4;labelPosition=center;verticalLabelPosition=middle;" vertex="1" parent="04v_0-utMSh1Fu0-i88t-64">
           <mxGeometry x="12.5" y="25.185185185185187" width="387.5" height="88.14814814814815" as="geometry" />
         </mxCell>
-        <mxCell id="04v_0-utMSh1Fu0-i88t-74" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="04v_0-utMSh1Fu0-i88t-64" source="04v_0-utMSh1Fu0-i88t-67">
+        <mxCell id="04v_0-utMSh1Fu0-i88t-74" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;endArrow=open;endFill=0;" edge="1" parent="04v_0-utMSh1Fu0-i88t-64" source="04v_0-utMSh1Fu0-i88t-67">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="100" y="133" as="targetPoint" />
           </mxGeometry>
@@ -152,7 +152,7 @@
         <mxCell id="04v_0-utMSh1Fu0-i88t-98" value="&lt;div&gt;entry / &amp;lt;NA&amp;gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;do / Track Marker + SubState&lt;br&gt;&lt;/div&gt;&lt;div&gt;exit / Remove 3D Model&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;spacingLeft=4;labelPosition=center;verticalLabelPosition=middle;" vertex="1" parent="04v_0-utMSh1Fu0-i88t-96">
           <mxGeometry x="12.5" y="25.185185185185187" width="387.5" height="88.14814814814815" as="geometry" />
         </mxCell>
-        <mxCell id="04v_0-utMSh1Fu0-i88t-99" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="04v_0-utMSh1Fu0-i88t-96" source="04v_0-utMSh1Fu0-i88t-100">
+        <mxCell id="04v_0-utMSh1Fu0-i88t-99" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;endArrow=open;endFill=0;" edge="1" parent="04v_0-utMSh1Fu0-i88t-96" source="04v_0-utMSh1Fu0-i88t-100">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="100" y="133" as="targetPoint" />
           </mxGeometry>
