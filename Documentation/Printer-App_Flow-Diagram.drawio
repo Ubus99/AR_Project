@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0" version="24.8.3">
   <diagram name="Seite-1" id="wQY5KsPMTsWH1tA1Gdz1">
-    <mxGraphModel dx="1050" dy="503" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
+    <mxGraphModel dx="1235" dy="592" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2336" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -56,7 +56,7 @@
           <mxGeometry x="267" y="210" width="30" height="30" as="geometry" />
         </mxCell>
         <mxCell id="04v_0-utMSh1Fu0-i88t-51" value="" style="fontStyle=1;align=center;verticalAlign=middle;childLayout=stackLayout;horizontal=1;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;marginBottom=0;rounded=1;absoluteArcSize=1;arcSize=22;" vertex="1" parent="1">
-          <mxGeometry x="1000" y="120" width="200" height="100" as="geometry" />
+          <mxGeometry x="1160" y="120" width="200" height="100" as="geometry" />
         </mxCell>
         <mxCell id="04v_0-utMSh1Fu0-i88t-52" value="Search Game 2" style="html=1;align=center;spacing=0;verticalAlign=middle;strokeColor=none;fillColor=none;whiteSpace=wrap;" vertex="1" parent="04v_0-utMSh1Fu0-i88t-51">
           <mxGeometry width="200" height="20" as="geometry" />
