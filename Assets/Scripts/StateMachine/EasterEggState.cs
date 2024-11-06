@@ -3,22 +3,26 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    public class EasterEggState : AbstractState<GameManager>
+    public class EasterEggState : IState
     {
-
-        protected override void EntryBehavior()
+        public void Enter()
         {
-            Debug.Log("Start");
+            Debug.Log("Enter EasterEggState");
         }
 
-        protected override void UpdateBehavior()
+        public void Execute()
         {
-            Debug.Log("Running");
+            Debug.Log("Execute EasterEggState");
         }
 
-        protected override void ExitBehavior()
+        public void Exit()
         {
-            throw new NotImplementedException();
+            Debug.Log("Exit EasterEggState");
+        }
+
+        public Type GetNextState()
+        {
+            return typeof(StartState);
         }
     }
 }
