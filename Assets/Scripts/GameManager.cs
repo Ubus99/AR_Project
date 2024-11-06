@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         if (_currentState == null)
             return;
         _currentState.Exit();
-        _currentState = Activator.CreateInstance(T) as IState;
+        _currentState = Activator.CreateInstance(T) as IState ?? new ErrorState();
         _currentState.Enter();
 
     }

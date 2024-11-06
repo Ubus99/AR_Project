@@ -21,14 +21,20 @@ public class ImageRecognition : MonoBehaviour
     {
         foreach (var img in _arTrackedImageManager.trackables)
         {
+            var instTransf = _instances[img.trackableId].transform;
+            var imgTransf = img.transform;
+
             if (img.trackingState == TrackingState.None)
+            {
+                instTransf.gameObject.SetActive(false);
                 continue;
+            }
 
-            var instTrans = _instances[img.trackableId].transform;
-            instTrans.position = img.transform.position;
-            instTrans.rotation = Quaternion.Slerp(instTrans.rotation, transform.rotation, 0.5f);
+            instTransf.gameObject.SetActive(true);
+            instTransf.position = imgTransf.position;
+            instTransf.rotation = Quaternion.Slerp(instTransf.rotation, imgTransf.rotation, 0.5f);
 
-            Debug.DrawRay(img.transform.position, img.transform.forward, Color.red);
+            Debug.DrawRay(imgTransf.position, imgTransf.forward, Color.red);
         }
     }
 
