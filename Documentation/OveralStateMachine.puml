@@ -1,0 +1,53 @@
+﻿@startuml
+'https://plantuml.com/state-diagram
+
+scale 350 width
+hide empty description
+skinparam backgroundColor transparent
+
+[*] -> StartState
+StartState -> EasterEgg1: UserConfirm
+
+EasterEgg1: Entry:  Spawn Object
+EasterEgg1: Do:     <NA>
+EasterEgg1: Exit:   Destroy Object
+EasterEgg1 -> Game1: EggTouched
+
+state Game1 {
+    Game1: Entry:  ShowUI
+    Game1: Do:     SubState
+    Game1: Exit:   HideUI
+
+    [*] -> [*]
+}
+Game1 -> EasterEgg2
+
+EasterEgg2: Entry:  Spawn Object
+EasterEgg2: Do:     <NA>
+EasterEgg2: Exit:   Destroy Object
+EasterEgg2 --> Game2: EggTouched
+
+state Game2 {
+    Game2: Entry:  <NA>
+    Game2: Do:     SubState
+    Game2: Exit:   Destroy Object
+
+    [*] -> [*]
+}
+Game2 -left> EasterEgg3
+
+EasterEgg3: Entry:  Spawn Object
+EasterEgg3: Do:     <NA>
+EasterEgg3: Exit:   Destroy Object
+EasterEgg3 -left> Game3: EggTouched
+
+state Game3 {
+    Game3: Entry:  <NA>
+    Game3: Do:     SubState
+    Game3: Exit:   Destroy Object
+
+    [*] -> [*]
+}
+Game3 -left> [*]
+
+@enduml

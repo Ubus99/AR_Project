@@ -1,0 +1,39 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+'autonumber'
+
+skinparam backgroundColor transparent
+
+mainframe: Loop
+hide footbox
+
+[-> GameManager ++ : Start
+GameManager -> StartState ** : new
+return
+
+[-> GameManager ++ : Update
+GameManager -> StartState ++ : Execute
+return
+
+GameManager -> StartState ++ : GetNextState
+return nextState
+
+GameManager -> GameManager ++ : TransitionTo
+
+GameManager -> StartState !! : Exit
+GameManager -> nextState ** : new
+
+GameManager -> nextState ++ : Enter
+return
+
+return
+
+return
+
+[-> GameManager ++: Update
+
+GameManager -> nextState ++ : Execute
+return
+
+@enduml
