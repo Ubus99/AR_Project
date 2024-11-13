@@ -7,17 +7,23 @@ namespace StateMachine
     {
         public void Enter()
         {
+#if UNITY_EDITOR
             Debug.Log("Enter EasterEggState");
+#endif
         }
 
         public void Execute()
         {
+#if UNITY_EDITOR
             Debug.Log("Execute EasterEggState");
+#endif
         }
 
         public void Exit()
         {
+#if UNITY_EDITOR
             Debug.Log("Exit EasterEggState");
+#endif
         }
 
         public Type GetNextState()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 
 public class ImageRecognition : MonoBehaviour
@@ -32,9 +33,14 @@ public class ImageRecognition : MonoBehaviour
 
             instTransf.gameObject.SetActive(true);
             instTransf.position = imgTransf.position;
-            instTransf.rotation = Quaternion.Slerp(instTransf.rotation, imgTransf.rotation, 0.5f);
+            if (Quaternion.Angle(instTransf.rotation, imgTransf.rotation) > 2)
+                instTransf.rotation.SetLookRotation(img.transform.forward);
 
-            Debug.DrawRay(imgTransf.position, imgTransf.forward, Color.red);
+#if UNITY_EDITOR
+            Debug.DrawRay(imgTransf.position, imgTransf.right / 2, Color.red);
+            Debug.DrawRay(imgTransf.position, imgTransf.up / 2, Color.green);
+            Debug.DrawRay(imgTransf.position, imgTransf.forward / 2, Color.blue);
+#endif
         }
     }
 
