@@ -5,6 +5,7 @@ namespace StateMachine
 {
     public class EasterEggState : IState
     {
+
         public void Enter()
         {
 #if UNITY_EDITOR
