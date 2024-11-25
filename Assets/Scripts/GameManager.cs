@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using StateMachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
@@ -13,15 +14,19 @@ public class GameManager : MonoBehaviour
 
     public Vector2 mTapStartPosition;
 
+    [FormerlySerializedAs("m_TapStartPosition")]
+    [FormerlySerializedAs("_mTapStartPosition")]
+    [SerializeField]
+    XRInputValueReader<Vector2> mTapStartPositionInput = new XRInputValueReader<Vector2>("Tap Start Position");
+
     readonly Dictionary<string, AbstractMSM> _stateCache = new Dictionary<string, AbstractMSM>();
 
     AbstractMSM _currentState;
-    XRInputValueReader<Vector2> _mTapStartPosition = new XRInputValueReader<Vector2>("Tap Start Position");
 
     public XRInputValueReader<Vector2> tapStartPosition
     {
-        get => _mTapStartPosition;
-        set => XRInputReaderUtility.SetInputProperty(ref _mTapStartPosition, value, this);
+        get => mTapStartPositionInput;
+        set => XRInputReaderUtility.SetInputProperty(ref mTapStartPositionInput, value, this);
     }
 
     public bool tapStartThisFrame

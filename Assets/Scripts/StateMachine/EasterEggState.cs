@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 namespace StateMachine
 {
     public class EasterEggState : AbstractMSM
     {
+
+        bool _eggFound;
 
         public EasterEggState(GameManager manager) : base(manager)
         {
@@ -15,45 +14,43 @@ namespace StateMachine
 
         public override void Enter()
         {
-#if UNITY_EDITOR
-            Debug.Log("Enter EasterEggState");
-#endif
+            base.Enter();
+
             Manager.spawnManager.SpawnEgg();
         }
 
         public override void Execute()
         {
-#if UNITY_EDITOR
-            Debug.Log("Execute EasterEggState");
-#endif
+            base.Execute();
 
             if (!Manager.tapStartThisFrame)
                 return;
 
-            var hits = new List<ARRaycastHit>();
-            if (Manager.raycastManager.Raycast(
-                    Manager.mTapStartPosition,
-                    hits,
-                    TrackableType.PlaneWithinPolygon
-                ))
+            var ray = Camera.main.ScreenPointToRay(Manager.mTapStartPosition);
+            if (Physics.Raycast(ray, out var hit))
             {
-                hits[0].trackable.gameObject.SetActive(false);
+                Manager.spawnManager.DestroyEgg();
             }
         }
 
         public override void Exit()
         {
-#if UNITY_EDITOR
-            Debug.Log("Exit EasterEggState");
-#endif
+            base.Exit();
 
             Manager.spawnManager.DestroyEgg();
+            _eggFound = true;
         }
 
         public override Type GetNextState()
         {
             if (Manager.spawnManager.eggInstance)
+            {
                 return typeof(EasterEggState);
+            }
+            if (_eggFound)
+            {
+                return typeof(UploadGameState);
+            }
             return typeof(StartState);
         }
     }

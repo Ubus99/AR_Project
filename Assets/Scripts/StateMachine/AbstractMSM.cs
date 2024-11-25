@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace StateMachine
 {
@@ -6,17 +7,32 @@ namespace StateMachine
     {
 
         readonly protected GameManager Manager;
-        
+
         protected AbstractMSM(GameManager manager)
         {
             Manager = manager;
         }
 
-        public abstract void Enter();
+        public virtual void Enter()
+        {
+#if UNITY_EDITOR
+            Debug.Log("Enter " + GetType());
+#endif
+        }
 
-        public abstract void Execute();
+        public virtual void Execute()
+        {
+#if UNITY_EDITOR
+            Debug.Log("Enter " + GetType());
+#endif
+        }
 
-        public abstract void Exit();
+        public virtual void Exit()
+        {
+#if UNITY_EDITOR
+            Debug.Log("Enter " + GetType());
+#endif
+        }
 
         public abstract Type GetNextState();
     }
