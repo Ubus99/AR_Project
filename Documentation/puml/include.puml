@@ -9,4 +9,5 @@
 !include .\\.\Assets\Scripts\StateMachine\ErrorState.puml
 !include .\\.\Assets\Scripts\StateMachine\IState.puml
 !include .\\.\Assets\Scripts\StateMachine\StartState.puml
+!include .\\.\Assets\Scripts\StateMachine\UploadGameState.puml
 @enduml

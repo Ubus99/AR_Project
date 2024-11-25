@@ -16,21 +16,21 @@ namespace StateMachine
         public virtual void Enter()
         {
 #if UNITY_EDITOR
-            Debug.Log("Enter " + GetType());
+            Debug.Log("Entering " + GetType());
 #endif
         }
 
         public virtual void Execute()
         {
 #if UNITY_EDITOR
-            Debug.Log("Enter " + GetType());
+            Debug.Log("Executing " + GetType());
 #endif
         }
 
         public virtual void Exit()
         {
 #if UNITY_EDITOR
-            Debug.Log("Enter " + GetType());
+            Debug.Log("Exiting " + GetType());
 #endif
         }
 

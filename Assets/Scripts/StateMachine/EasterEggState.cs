@@ -43,13 +43,13 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            if (Manager.spawnManager.eggInstance)
-            {
-                return typeof(EasterEggState);
-            }
             if (_eggFound)
             {
                 return typeof(UploadGameState);
+            }
+            if (Manager.spawnManager.eggInstance)
+            {
+                return typeof(EasterEggState);
             }
             return typeof(StartState);
         }

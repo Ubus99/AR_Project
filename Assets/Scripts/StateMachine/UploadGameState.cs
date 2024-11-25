@@ -10,22 +10,22 @@ namespace StateMachine
 
         public override void Enter()
         {
-            throw new NotImplementedException();
+            base.Enter();
         }
 
         public override void Execute()
         {
-            throw new NotImplementedException();
+            base.Execute();
         }
 
         public override void Exit()
         {
-            throw new NotImplementedException();
+            base.Exit();
         }
 
         public override Type GetNextState()
         {
-            throw new NotImplementedException();
+            return typeof(UploadGameState);
         }
     }
 }

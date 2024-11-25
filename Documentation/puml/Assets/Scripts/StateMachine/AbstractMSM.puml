@@ -1,11 +1,9 @@
 @startuml
 abstract class AbstractMSM {
-    + {abstract} Enter(host:GameManager) : void
-    + {abstract} Execute() : void
-    + {abstract} Exit() : void
+    + <<virtual>> Enter() : void
+    + <<virtual>> Execute() : void
+    + <<virtual>> Exit() : void
     + {abstract} GetNextState() : Type
 }
-class "IState`1"<T> {
-}
-"IState`1" "<GameManager>" <|-- AbstractMSM
+IState <|-- AbstractMSM
 @enduml

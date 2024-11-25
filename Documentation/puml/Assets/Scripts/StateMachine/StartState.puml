@@ -1,6 +1,7 @@
 @startuml
 class StartState {
-    + <<override>> Enter(manager:GameManager) : void
+    + StartState(manager:GameManager)
+    + <<override>> Enter() : void
     + <<override>> Execute() : void
     + <<override>> Exit() : void
     + <<override>> GetNextState() : Type

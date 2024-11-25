@@ -1,5 +1,6 @@
 @startuml
 class ARSpawnManager {
+    + canPlace : bool <<get>>
     + SpawnEgg() : void
     + DestroyEgg() : void
     + Update3DTracking() : void
@@ -7,4 +8,5 @@ class ARSpawnManager {
 MonoBehaviour <|-- ARSpawnManager
 ARSpawnManager --> "printerPrefab" GameObject
 ARSpawnManager --> "eggPrefab" GameObject
+ARSpawnManager --> "eggInstance" GameObject
 @enduml

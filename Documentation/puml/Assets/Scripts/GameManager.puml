@@ -1,7 +1,12 @@
 @startuml
 class GameManager {
+    + tapStartThisFrame : bool <<get>>
+}
+class "XRInputValueReader`1"<T> {
 }
 MonoBehaviour <|-- GameManager
 GameManager --> "spawnManager" ARSpawnManager
-GameManager --> "CurrentState" AbstractMSM
+GameManager --> "raycastManager" ARRaycastManager
+GameManager --> "mTapStartPosition" Vector2
+GameManager --> "tapStartPosition<Vector2>" "XRInputValueReader`1"
 @enduml

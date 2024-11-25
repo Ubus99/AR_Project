@@ -1,6 +1,6 @@
 @startuml
-interface "IState`1"<in T> {
-    + Enter(manager:T) : void
+interface IState {
+    + Enter() : void
     + Execute() : void
     + Exit() : void
     + GetNextState() : Type
