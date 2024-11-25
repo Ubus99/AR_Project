@@ -8,6 +8,5 @@ namespace StateMachine
         public void Execute();
         public void Exit();
         public Type GetNextState();
-
     }
 }

@@ -1,0 +1,6 @@
+@startuml
+class ImageRecognition {
+}
+MonoBehaviour <|-- ImageRecognition
+ImageRecognition --> "prefab" GameObject
+@enduml

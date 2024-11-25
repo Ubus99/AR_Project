@@ -1,0 +1,9 @@
+@startuml
+class StartState {
+    + <<override>> Enter(manager:GameManager) : void
+    + <<override>> Execute() : void
+    + <<override>> Exit() : void
+    + <<override>> GetNextState() : Type
+}
+AbstractMSM <|-- StartState
+@enduml

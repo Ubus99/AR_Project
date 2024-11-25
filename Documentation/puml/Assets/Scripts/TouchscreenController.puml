@@ -1,0 +1,10 @@
+@startuml
+class TouchscreenController {
+    + OnNfcButtonPressed() : void
+    + OnPrintSelected() : void
+}
+MonoBehaviour <|-- TouchscreenController
+TouchscreenController --> "loginScreen" GameObject
+TouchscreenController --> "mainMenuScreen" GameObject
+TouchscreenController --> "printScreen" GameObject
+@enduml

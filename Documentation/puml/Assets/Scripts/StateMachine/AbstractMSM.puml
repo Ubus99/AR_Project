@@ -1,0 +1,11 @@
+@startuml
+abstract class AbstractMSM {
+    + {abstract} Enter(host:GameManager) : void
+    + {abstract} Execute() : void
+    + {abstract} Exit() : void
+    + {abstract} GetNextState() : Type
+}
+class "IState`1"<T> {
+}
+"IState`1" "<GameManager>" <|-- AbstractMSM
+@enduml

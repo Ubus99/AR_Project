@@ -1,0 +1,7 @@
+@startuml
+class GameManager {
+}
+MonoBehaviour <|-- GameManager
+GameManager --> "spawnManager" ARSpawnManager
+GameManager --> "CurrentState" AbstractMSM
+@enduml

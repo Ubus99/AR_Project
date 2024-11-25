@@ -1,0 +1,5 @@
+@startuml
+class CameraFinder {
+}
+MonoBehaviour <|-- CameraFinder
+@enduml

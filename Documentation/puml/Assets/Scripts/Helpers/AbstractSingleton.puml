@@ -1,0 +1,5 @@
+@startuml
+class "AbstractSingleton`1"<T> {
+    + {static} instance : T <<get>>
+}
+@enduml

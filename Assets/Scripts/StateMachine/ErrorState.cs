@@ -3,25 +3,29 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    public class ErrorState : IState
+    public class ErrorState : AbstractMSM
     {
 
-        public void Enter()
+        public ErrorState(GameManager manager) : base(manager)
+        {
+        }
+
+        public override void Enter()
         {
             Debug.Log("Enter ErrorState");
         }
 
-        public void Execute()
+        public override void Execute()
         {
             Debug.Log("Execute ErrorState");
         }
 
-        public void Exit()
+        public override void Exit()
         {
             Debug.Log("Exit ErrorState");
         }
 
-        public Type GetNextState()
+        public override Type GetNextState()
         {
             return typeof(ErrorState);
         }

@@ -1,17 +1,38 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using StateMachine;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
 public class GameManager : MonoBehaviour
 {
 
-    readonly IState _startState = new StartState();
-    readonly Dictionary<string, IState> _stateCache = new Dictionary<string, IState>();
+    public ARSpawnManager spawnManager;
+    public ARRaycastManager raycastManager;
 
-    [CanBeNull]
-    IState _currentState;
+    public Vector2 mTapStartPosition;
+
+    readonly Dictionary<string, AbstractMSM> _stateCache = new Dictionary<string, AbstractMSM>();
+
+    AbstractMSM _currentState;
+    XRInputValueReader<Vector2> _mTapStartPosition = new XRInputValueReader<Vector2>("Tap Start Position");
+
+    public XRInputValueReader<Vector2> tapStartPosition
+    {
+        get => _mTapStartPosition;
+        set => XRInputReaderUtility.SetInputProperty(ref _mTapStartPosition, value, this);
+    }
+
+    public bool tapStartThisFrame
+    {
+        get
+        {
+            var prevTapStartPosition = mTapStartPosition;
+            return tapStartPosition.TryReadValue(out mTapStartPosition) &&
+                prevTapStartPosition != mTapStartPosition;
+        }
+    }
 
     void Awake()
     {
@@ -21,30 +42,28 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentState = _startState;
+        _currentState = new StartState(this);
+        spawnManager = FindObjectOfType<ARSpawnManager>();
+        raycastManager = FindObjectOfType<ARRaycastManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_currentState != null)
+        if (_currentState == null)
         {
-            _currentState.Execute();
-            var nextState = _currentState.GetNextState();
-            if (nextState != null && nextState != _currentState.GetType())
-            {
-                TransitionTo(nextState);
-            }
+            _currentState = new ErrorState(this);
         }
         else
         {
-            _currentState = _startState;
+            _currentState.Execute();
+            TransitionTo(_currentState.GetNextState());
         }
     }
 
     void TransitionTo(Type T)
     {
-        if (_currentState == null)
+        if (_currentState == null || T == _currentState.GetType())
             return;
 
         _currentState.Exit();
@@ -52,11 +71,11 @@ public class GameManager : MonoBehaviour
         string stateName = T.ToString();
         if (_stateCache.TryGetValue(stateName, out var state))
         {
-            _currentState = state ?? new ErrorState();
+            _currentState = state ?? new ErrorState(this);
         }
         else
         {
-            _currentState = Activator.CreateInstance(T) as IState ?? new ErrorState();
+            _currentState = (AbstractMSM)Activator.CreateInstance(T, new object[] { this }) ?? new ErrorState(this);
             _stateCache.Add(stateName, _currentState);
         }
 

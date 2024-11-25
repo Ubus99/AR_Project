@@ -1,0 +1,10 @@
+@startuml
+class ARSpawnManager {
+    + SpawnEgg() : void
+    + DestroyEgg() : void
+    + Update3DTracking() : void
+}
+MonoBehaviour <|-- ARSpawnManager
+ARSpawnManager --> "printerPrefab" GameObject
+ARSpawnManager --> "eggPrefab" GameObject
+@enduml

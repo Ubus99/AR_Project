@@ -1,0 +1,12 @@
+@startuml
+!include .\\.\Assets\Scripts\ARSpawnManager.puml
+!include .\\.\Assets\Scripts\CameraFinder.puml
+!include .\\.\Assets\Scripts\GameManager.puml
+!include .\\.\Assets\Scripts\TouchscreenController.puml
+!include .\\.\Assets\Scripts\Helpers\AbstractSingleton.puml
+!include .\\.\Assets\Scripts\StateMachine\AbstractMSM.puml
+!include .\\.\Assets\Scripts\StateMachine\EasterEggState.puml
+!include .\\.\Assets\Scripts\StateMachine\ErrorState.puml
+!include .\\.\Assets\Scripts\StateMachine\IState.puml
+!include .\\.\Assets\Scripts\StateMachine\StartState.puml
+@enduml
