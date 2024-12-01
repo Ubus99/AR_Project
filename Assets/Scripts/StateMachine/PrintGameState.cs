@@ -2,9 +2,9 @@
 
 namespace StateMachine
 {
-    public class UploadGameState : AbstractMSM
+    public class PrintGameState : AbstractMSM
     {
-        public UploadGameState(GameManager manager) : base(manager)
+        public PrintGameState(GameManager manager) : base(manager)
         {
         }
 
@@ -17,6 +17,7 @@ namespace StateMachine
         public override void Execute()
         {
             base.Execute();
+            Manager.spawnManager.Update3DTracking();
         }
 
         public override void Exit()
@@ -27,7 +28,7 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            return typeof(UploadGameState);
+            return typeof(PrintGameState);
         }
     }
 }

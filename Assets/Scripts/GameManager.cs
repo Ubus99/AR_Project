@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
+using Spawners;
 using StateMachine;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
 public class GameManager : MonoBehaviour
 {
 
-    public ARSpawnManager spawnManager;
+    public ImageSpawnManager spawnManager;
+    public EggSpawnManager eggSpawnManager;
     public ARRaycastManager raycastManager;
 
     public Vector2 mTapStartPosition;
 
-    [FormerlySerializedAs("m_TapStartPosition")]
-    [FormerlySerializedAs("_mTapStartPosition")]
     [SerializeField]
     XRInputValueReader<Vector2> mTapStartPositionInput = new XRInputValueReader<Vector2>("Tap Start Position");
 
@@ -48,7 +47,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _currentState = new StartState(this);
-        spawnManager = FindObjectOfType<ARSpawnManager>();
+        spawnManager = FindObjectOfType<ImageSpawnManager>();
+        eggSpawnManager = FindObjectOfType<EggSpawnManager>();
         raycastManager = FindObjectOfType<ARRaycastManager>();
     }
 

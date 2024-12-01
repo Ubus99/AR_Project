@@ -1,10 +1,17 @@
 @startuml
 class TouchscreenController {
-    + OnNfcButtonPressed() : void
-    + OnPrintSelected() : void
+    + SwitchScreen(screen:string) : void
+}
+enum Screens {
+    Login,
+    MainMenu,
+    Print,
+    Error,
 }
 MonoBehaviour <|-- TouchscreenController
 TouchscreenController --> "loginScreen" GameObject
 TouchscreenController --> "mainMenuScreen" GameObject
 TouchscreenController --> "printScreen" GameObject
+TouchscreenController --> "errorScreen" GameObject
+TouchscreenController +-- Screens
 @enduml

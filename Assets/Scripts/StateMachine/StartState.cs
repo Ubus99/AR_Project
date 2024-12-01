@@ -33,9 +33,7 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            if (Manager.spawnManager.canPlace)
-                return typeof(EasterEggState);
-            return typeof(StartState);
+            return typeof(EasterEggState);
         }
     }
 }

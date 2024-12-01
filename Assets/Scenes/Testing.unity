@@ -452,6 +452,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab68ce6587aab0146b8dabefbd806791, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_ClickSpeed: 0.3
+  m_MoveDeadzone: 0.6
+  m_RepeatDelay: 0.5
+  m_RepeatRate: 0.1
+  m_TrackedDeviceDragThresholdMultiplier: 2
+  m_TrackedScrollDeltaMultiplier: 5
+  m_BypassUIToolkitEvents: 0
+  m_ActiveInputMode: 0
+  m_EnableXRInput: 1
+  m_EnableMouseInput: 1
+  m_EnableTouchInput: 1
+  m_PointAction: {fileID: 0}
+  m_LeftClickAction: {fileID: 0}
+  m_MiddleClickAction: {fileID: 0}
+  m_RightClickAction: {fileID: 0}
+  m_ScrollWheelAction: {fileID: 0}
+  m_NavigateAction: {fileID: 0}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
+  m_EnableBuiltinActionsAsFallback: 1
+  m_EnableGamepadInput: 1
+  m_EnableJoystickInput: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
 --- !u!114 &480792433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,8 +519,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1311173192}
   - component: {fileID: 1311173191}
+  - component: {fileID: 1311173193}
   m_Layer: 0
-  m_Name: ImageTracker
+  m_Name: spawnManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -506,16 +534,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311173190}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27bd033321271a94eb70a5995c02f36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   printerPrefab: {fileID: 6415106467310622947, guid: be0614f081794534d88623f81854457b,
     type: 3}
-  eggPrefab: {fileID: 7194947567173528958, guid: dcdcce03d0ff5c340866bfbdfc9116a3,
-    type: 3}
-  eggInstance: {fileID: 0}
 --- !u!4 &1311173192
 Transform:
   m_ObjectHideFlags: 0
@@ -531,6 +556,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1746928531}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1311173193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311173190}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a0ee929028942e19e04e2718a180026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eggPrefab: {fileID: 7194947567173528958, guid: dcdcce03d0ff5c340866bfbdfc9116a3,
+    type: 3}
+  requiredArea: 75
 --- !u!1 &1382481865
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,6 +633,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83e4e6cca11330d4088d729ab4fc9d9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_StartingHoverFilters: []
+  m_StartingSelectFilters: []
 --- !u!4 &1426146835
 Transform:
   m_ObjectHideFlags: 0
@@ -934,6 +976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnManager: {fileID: 1311173191}
+  eggSpawnManager: {fileID: 0}
   raycastManager: {fileID: 0}
   mTapStartPosition: {x: 0, y: 0}
   mTapStartPositionInput:

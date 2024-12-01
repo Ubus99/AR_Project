@@ -1,17 +1,18 @@
+using System;
 using UnityEngine;
 
 public class TouchscreenController : MonoBehaviour
 {
+
     public GameObject loginScreen;
     public GameObject mainMenuScreen;
     public GameObject printScreen;
+    public GameObject errorScreen;
 
     // Start is called before the first frame update
     void Start()
     {
-        loginScreen.SetActive(true);
-        mainMenuScreen.SetActive(false);
-        printScreen.SetActive(false);
+        SwitchScreen("Login");
     }
 
     // Update is called once per frame
@@ -20,23 +21,53 @@ public class TouchscreenController : MonoBehaviour
 
     }
 
-    public void OnNfcButtonPressed()
+    public void SwitchScreen(string screen)
     {
-#if UNITY_EDITOR
-        Debug.Log("NFC button pressed");
-#endif
-
         loginScreen.SetActive(false);
-        mainMenuScreen.SetActive(true);
+        mainMenuScreen.SetActive(false);
+        printScreen.SetActive(false);
+        errorScreen.SetActive(false);
+
+        if (!Enum.TryParse(screen, out Screens screenEnum))
+            return;
+
+        switch (screenEnum)
+        {
+
+            case Screens.Login:
+#if UNITY_EDITOR
+                Debug.Log("screens reset");
+#endif
+                loginScreen.SetActive(true);
+                break;
+            case Screens.MainMenu:
+#if UNITY_EDITOR
+                Debug.Log("NFC button pressed");
+#endif
+                mainMenuScreen.SetActive(true);
+                break;
+            case Screens.Print:
+#if UNITY_EDITOR
+                Debug.Log("print button pressed");
+#endif
+                printScreen.SetActive(true);
+                break;
+            case Screens.Error:
+#if UNITY_EDITOR
+                Debug.Log("printStart button pressed");
+#endif
+                errorScreen.SetActive(true);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(screen), screen, null);
+        }
     }
 
-    public void OnPrintSelected()
+    enum Screens
     {
-#if UNITY_EDITOR
-        Debug.Log("Print button pressed");
-#endif
-
-        mainMenuScreen.SetActive(false);
-        printScreen.SetActive(true);
+        Login,
+        MainMenu,
+        Print,
+        Error,
     }
 }

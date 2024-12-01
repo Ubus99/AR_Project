@@ -16,42 +16,45 @@ namespace StateMachine
         {
             base.Enter();
 
-            Manager.spawnManager.SpawnEgg();
+            Manager.eggSpawnManager.enabled = true;
         }
 
         public override void Execute()
         {
             base.Execute();
+            if (Manager.eggSpawnManager.canPlace &&
+                !_eggFound &&
+                !Manager.eggSpawnManager.eggInstance)
+                Manager.eggSpawnManager.SpawnEgg();
 
             if (!Manager.tapStartThisFrame)
                 return;
 
             var ray = Camera.main.ScreenPointToRay(Manager.mTapStartPosition);
-            if (Physics.Raycast(ray, out var hit))
-            {
-                Manager.spawnManager.DestroyEgg();
-            }
+            if (!Physics.Raycast(ray, out var hit))
+                return;
+
+            Manager.eggSpawnManager.DestroyEgg();
+            _eggFound = true;
         }
 
         public override void Exit()
         {
             base.Exit();
 
-            Manager.spawnManager.DestroyEgg();
+            Manager.eggSpawnManager.DestroyEgg();
             _eggFound = true;
+
+            Manager.eggSpawnManager.enabled = false;
         }
 
         public override Type GetNextState()
         {
             if (_eggFound)
             {
-                return typeof(UploadGameState);
+                return typeof(PrintGameState);
             }
-            if (Manager.spawnManager.eggInstance)
-            {
-                return typeof(EasterEggState);
-            }
-            return typeof(StartState);
+            return typeof(EasterEggState);
         }
     }
 }
