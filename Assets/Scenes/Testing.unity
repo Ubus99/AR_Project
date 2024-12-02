@@ -539,6 +539,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27bd033321271a94eb70a5995c02f36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chargerPrefab: {fileID: 8680213527283999037, guid: 1ee2f6b7308997045aa730b8be0a01f2,
+    type: 3}
   printerPrefab: {fileID: 6415106467310622947, guid: be0614f081794534d88623f81854457b,
     type: 3}
 --- !u!4 &1311173192
@@ -570,7 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eggPrefab: {fileID: 7194947567173528958, guid: dcdcce03d0ff5c340866bfbdfc9116a3,
     type: 3}
-  requiredArea: 75
+  requiredArea: 5
 --- !u!1 &1382481865
 GameObject:
   m_ObjectHideFlags: 0

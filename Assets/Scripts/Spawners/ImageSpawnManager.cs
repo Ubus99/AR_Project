@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Quaternion = UnityEngine.Quaternion;
@@ -11,7 +10,7 @@ namespace Spawners
 {
     public class ImageSpawnManager : MonoBehaviour
     {
-        [FormerlySerializedAs("prefab")]
+        public GameObject chargerPrefab;
         public GameObject printerPrefab;
 
         readonly Dictionary<TrackableId, GameObject> _instances = new Dictionary<TrackableId, GameObject>();
@@ -39,7 +38,11 @@ namespace Spawners
             {
                 if (!_instances.ContainsKey(img.trackableId))
                 {
-                    var go = Instantiate(printerPrefab, img.transform.parent, false);
+                    var go = Instantiate(
+                        img.referenceImage.name == "ar_marker_1" ? printerPrefab : chargerPrefab,
+                        img.transform.parent,
+                        false);
+
                     try
                     {
                         go.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
