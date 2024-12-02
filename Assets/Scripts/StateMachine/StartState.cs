@@ -33,7 +33,7 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            return typeof(EasterEggState);
+            return typeof(EasterEggState<Game1State>);
         }
     }
 }

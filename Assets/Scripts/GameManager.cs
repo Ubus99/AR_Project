@@ -9,9 +9,8 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 public class GameManager : MonoBehaviour
 {
 
-    public ImageSpawnManager spawnManager;
+    public ImageSpawnManager modelSpawnManager;
     public EggSpawnManager eggSpawnManager;
-    public ARRaycastManager raycastManager;
 
     public Vector2 mTapStartPosition;
 
@@ -47,9 +46,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         _currentState = new StartState(this);
-        spawnManager = FindObjectOfType<ImageSpawnManager>();
+        modelSpawnManager = FindObjectOfType<ImageSpawnManager>();
         eggSpawnManager = FindObjectOfType<EggSpawnManager>();
-        raycastManager = FindObjectOfType<ARRaycastManager>();
     }
 
     // Update is called once per frame

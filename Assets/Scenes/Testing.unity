@@ -975,9 +975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72791d0252aa8464499920c72661aca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnManager: {fileID: 1311173191}
+  modelSpawnManager: {fileID: 0}
   eggSpawnManager: {fileID: 0}
-  raycastManager: {fileID: 0}
   mTapStartPosition: {x: 0, y: 0}
   mTapStartPositionInput:
     m_InputSourceMode: 2

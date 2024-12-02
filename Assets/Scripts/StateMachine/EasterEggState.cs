@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    public class EasterEggState : AbstractMSM
+    public class EasterEggState<T> : AbstractMSM where T : AbstractMSM
     {
 
         bool _eggFound;
@@ -52,9 +52,9 @@ namespace StateMachine
         {
             if (_eggFound)
             {
-                return typeof(PrintGameState);
+                return typeof(T);
             }
-            return typeof(EasterEggState);
+            return typeof(EasterEggState<T>);
         }
     }
 }

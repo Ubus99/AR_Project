@@ -11,19 +11,19 @@ namespace StateMachine
         public override void Enter()
         {
             base.Enter();
-            Manager.spawnManager.enabled = true;
+            Manager.modelSpawnManager.enabled = true;
         }
 
         public override void Execute()
         {
             base.Execute();
-            Manager.spawnManager.Update3DTracking();
+            Manager.modelSpawnManager.Update3DTracking();
         }
 
         public override void Exit()
         {
             base.Exit();
-            Manager.spawnManager.enabled = false;
+            Manager.modelSpawnManager.enabled = false;
         }
 
         public override Type GetNextState()

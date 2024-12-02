@@ -11,7 +11,6 @@ namespace StateMachine
         public override void Enter()
         {
             base.Enter();
-            Manager.spawnManager.enabled = true;
         }
 
         public override void Execute()
@@ -22,12 +21,11 @@ namespace StateMachine
         public override void Exit()
         {
             base.Exit();
-            Manager.spawnManager.enabled = false;
         }
 
         public override Type GetNextState()
         {
-            return typeof(UploadGameState);
+            return typeof(EasterEggState<PrintGameState>);
         }
     }
 }

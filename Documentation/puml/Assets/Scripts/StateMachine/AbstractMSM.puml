@@ -1,9 +1,0 @@
-@startuml
-abstract class AbstractMSM {
-    + <<virtual>> Enter() : void
-    + <<virtual>> Execute() : void
-    + <<virtual>> Exit() : void
-    + {abstract} GetNextState() : Type
-}
-IState <|-- AbstractMSM
-@enduml

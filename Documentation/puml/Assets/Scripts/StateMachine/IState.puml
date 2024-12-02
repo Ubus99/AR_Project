@@ -1,8 +1,0 @@
-@startuml
-interface IState {
-    + Enter() : void
-    + Execute() : void
-    + Exit() : void
-    + GetNextState() : Type
-}
-@enduml
