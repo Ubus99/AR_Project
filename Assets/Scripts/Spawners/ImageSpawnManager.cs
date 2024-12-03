@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -21,11 +22,13 @@ namespace Spawners
         public GameObject printerPrefab;
 
         ARTrackedImageManager _arTrackedImageManager;
-
         GameObject _chargerInstance;
         GameObject _printerInstance;
 
-        public Dictionary<PossibleObjects, bool> visibleObjects { get; set; }
+        public PrinterUIController printerUI { get; private set; }
+        public ChargerUIController chargerUI { get; private set; }
+
+        public Dictionary<PossibleObjects, bool> visibleObjects { get; private set; }
 
         void Awake()
         {
@@ -61,6 +64,7 @@ namespace Spawners
                             img,
                             printerPrefab,
                             visibleObjects[PossibleObjects.Printer]);
+                        printerUI = _printerInstance.GetComponentInChildren<PrinterUIController>();
                         break;
 
                     case "ar_marker_2":
@@ -68,8 +72,9 @@ namespace Spawners
                             return;
                         _chargerInstance = TryInstantiateModel(
                             img,
-                            printerPrefab,
+                            chargerPrefab,
                             visibleObjects[PossibleObjects.Charger]);
+                        chargerUI = _chargerInstance.GetComponentInChildren<ChargerUIController>();
                         break;
 
                     default:
@@ -102,20 +107,20 @@ namespace Spawners
             return go;
         }
 
-        public void Update3DTracking()
+        public void Update3DModels()
         {
             foreach (var img in _arTrackedImageManager.trackables)
             {
-                Update3DTracking(img,
+                Update3DModel(img,
                     visibleObjects[PossibleObjects.Charger],
                     _chargerInstance);
-                Update3DTracking(img,
+                Update3DModel(img,
                     visibleObjects[PossibleObjects.Printer],
                     _printerInstance);
             }
         }
 
-        static void Update3DTracking(ARTrackedImage img, bool visibility, GameObject inst)
+        static void Update3DModel(ARTrackedImage img, bool visibility, GameObject inst)
         {
             if (!inst) return;
 

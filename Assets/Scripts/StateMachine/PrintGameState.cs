@@ -22,13 +22,14 @@ namespace StateMachine
         public override void Execute()
         {
             base.Execute();
-            _spawnManager.Update3DTracking();
+            _spawnManager.Update3DModels();
         }
 
         public override void Exit()
         {
             base.Exit();
             _spawnManager.visibleObjects[ImageSpawnManager.PossibleObjects.Printer] = false;
+            _spawnManager.Update3DModels();
             _spawnManager.enabled = false;
         }
 

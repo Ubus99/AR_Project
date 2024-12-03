@@ -1,12 +1,10 @@
 ﻿using System;
 using Spawners;
-using UI;
 
 namespace StateMachine
 {
     public class ChargeGameState : AbstractMSM
     {
-        readonly PrinterUIController _printerUI;
         readonly ImageSpawnManager _spawnManager;
 
         public ChargeGameState(GameManager manager) : base(manager)
@@ -24,19 +22,24 @@ namespace StateMachine
         public override void Execute()
         {
             base.Execute();
-            _spawnManager.Update3DTracking();
+            _spawnManager.Update3DModels();
         }
 
         public override void Exit()
         {
             base.Exit();
             _spawnManager.visibleObjects[ImageSpawnManager.PossibleObjects.Charger] = false;
+            _spawnManager.Update3DModels();
             _spawnManager.enabled = false;
         }
 
         public override Type GetNextState()
         {
-            return typeof(EasterEggState<PrintGameState>);
+            if (_spawnManager.chargerUI?.done ?? false)
+            {
+                return typeof(EasterEggState<PrintGameState>);
+            }
+            return typeof(ChargeGameState);
         }
     }
 }

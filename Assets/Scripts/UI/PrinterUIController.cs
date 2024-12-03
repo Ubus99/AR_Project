@@ -12,10 +12,7 @@ namespace UI
         public GameObject errorScreen;
 
         // Start is called before the first frame update
-        void Start()
-        {
-            SwitchScreen("Login");
-        }
+        void Start() => SwitchScreen("Login");
 
         // Update is called once per frame
         void Update()
@@ -25,6 +22,9 @@ namespace UI
 
         public void SwitchScreen(string screen)
         {
+            if (!isActiveAndEnabled)
+                return;
+            
             loginScreen.SetActive(false);
             mainMenuScreen.SetActive(false);
             printScreen.SetActive(false);

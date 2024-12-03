@@ -1,20 +1,18 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI
 {
     public class ChargerUIController : MonoBehaviour
     {
-
-        public GameObject loginScreen;
-        public GameObject mainMenuScreen;
-        public GameObject printScreen;
-        public GameObject errorScreen;
+        public List<RectTransform> panels = new List<RectTransform>();
+        public bool done { get; set; }
 
         // Start is called before the first frame update
         void Start()
         {
-            //SwitchScreen("Login");
+            if (panels.Count > 0)
+                SwitchScreen(panels[0]);
         }
 
         // Update is called once per frame
@@ -23,54 +21,12 @@ namespace UI
 
         }
 
-        public void SwitchScreen(string screen)
+        public void SwitchScreen(RectTransform screen)
         {
-            loginScreen.SetActive(false);
-            mainMenuScreen.SetActive(false);
-            printScreen.SetActive(false);
-            errorScreen.SetActive(false);
-
-            if (!Enum.TryParse(screen, out Screens screenEnum))
-                return;
-
-            switch (screenEnum)
+            foreach (var panel in panels)
             {
-
-                case Screens.Login:
-#if UNITY_EDITOR
-                    Debug.Log("screens reset");
-#endif
-                    loginScreen.SetActive(true);
-                    break;
-                case Screens.MainMenu:
-#if UNITY_EDITOR
-                    Debug.Log("NFC button pressed");
-#endif
-                    mainMenuScreen.SetActive(true);
-                    break;
-                case Screens.Print:
-#if UNITY_EDITOR
-                    Debug.Log("print button pressed");
-#endif
-                    printScreen.SetActive(true);
-                    break;
-                case Screens.Error:
-#if UNITY_EDITOR
-                    Debug.Log("printStart button pressed");
-#endif
-                    errorScreen.SetActive(true);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(screen), screen, null);
+                panel.gameObject.SetActive(panel == screen);
             }
-        }
-
-        enum Screens
-        {
-            Login,
-            MainMenu,
-            Print,
-            Error,
         }
     }
 }
