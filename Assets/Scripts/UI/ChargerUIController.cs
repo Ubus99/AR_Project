@@ -23,6 +23,7 @@ namespace UI
 
         public void SwitchScreen(RectTransform screen)
         {
+            Debug.Log("Switching to " + screen.name);
             foreach (var panel in panels)
             {
                 panel.gameObject.SetActive(panel == screen);
