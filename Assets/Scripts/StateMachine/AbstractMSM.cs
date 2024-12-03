@@ -7,6 +7,7 @@ namespace StateMachine
     {
 
         readonly protected GameManager Manager;
+        protected bool InProcess;
 
         protected AbstractMSM(GameManager manager)
         {
@@ -23,8 +24,10 @@ namespace StateMachine
         public virtual void Execute()
         {
 #if UNITY_EDITOR
-            Debug.Log("Executing " + GetType());
+            if (!InProcess)
+                Debug.Log("Executing " + GetType());
 #endif
+            InProcess = true;
         }
 
         public virtual void Exit()
@@ -32,6 +35,7 @@ namespace StateMachine
 #if UNITY_EDITOR
             Debug.Log("Exiting " + GetType());
 #endif
+            InProcess = false;
         }
 
         public abstract Type GetNextState();
