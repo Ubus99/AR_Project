@@ -20,13 +20,10 @@ namespace Spawners
         public GameObject chargerPrefab;
         public GameObject printerPrefab;
 
-        readonly Dictionary<TrackableId, GameObject> _chargerInstances =
-            new Dictionary<TrackableId, GameObject>();
-
-        readonly Dictionary<TrackableId, GameObject> _printerInstances =
-            new Dictionary<TrackableId, GameObject>();
-
         ARTrackedImageManager _arTrackedImageManager;
+
+        GameObject _chargerInstance;
+        GameObject _printerInstance;
 
         public Dictionary<PossibleObjects, bool> visibleObjects { get; set; }
 
@@ -58,17 +55,21 @@ namespace Spawners
                 switch (img.referenceImage.name)
                 {
                     case "ar_marker_1":
-                        TryInstantiateModel(img,
+                        if (_printerInstance)
+                            return;
+                        _printerInstance = TryInstantiateModel(
+                            img,
                             printerPrefab,
-                            visibleObjects[PossibleObjects.Printer],
-                            _printerInstances);
+                            visibleObjects[PossibleObjects.Printer]);
                         break;
 
                     case "ar_marker_2":
-                        TryInstantiateModel(img,
-                            chargerPrefab,
-                            visibleObjects[PossibleObjects.Charger],
-                            _chargerInstances);
+                        if (_chargerInstance)
+                            return;
+                        _chargerInstance = TryInstantiateModel(
+                            img,
+                            printerPrefab,
+                            visibleObjects[PossibleObjects.Charger]);
                         break;
 
                     default:
@@ -78,17 +79,14 @@ namespace Spawners
             }
         }
 
-        static void TryInstantiateModel(ARTrackedImage img, GameObject prefab, bool visibility, Dictionary<TrackableId, GameObject> cache)
+        static GameObject TryInstantiateModel(ARTrackedImage img, GameObject prefab, bool visibility)
         {
-            if (cache.ContainsKey(img.trackableId)) // already tracked
-                return;
 
             var go = Instantiate(
                 prefab,
                 img.transform.parent,
                 false);
             go.SetActive(visibility);
-            cache.Add(img.trackableId, go);
 
 #if UNITY_EDITOR
             try
@@ -101,6 +99,7 @@ namespace Spawners
                 throw;
             }
 #endif
+            return go;
         }
 
         public void Update3DTracking()
@@ -109,17 +108,16 @@ namespace Spawners
             {
                 Update3DTracking(img,
                     visibleObjects[PossibleObjects.Charger],
-                    _chargerInstances);
+                    _chargerInstance);
                 Update3DTracking(img,
                     visibleObjects[PossibleObjects.Printer],
-                    _printerInstances);
+                    _printerInstance);
             }
         }
 
-        static void Update3DTracking(ARTrackedImage img, bool visibility, Dictionary<TrackableId, GameObject> cache)
+        static void Update3DTracking(ARTrackedImage img, bool visibility, GameObject inst)
         {
-            if (!cache.TryGetValue(img.trackableId, out var inst))
-                return;
+            if (!inst) return;
 
             if (!visibility) // hide and leave
             {
