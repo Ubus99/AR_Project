@@ -58,6 +58,11 @@ namespace Spawners
             _planes = buffer;
         }
 
+        public void SpawnEgg(int delay)
+        {
+            Invoke(nameof(SpawnEgg), delay);
+        }
+
         public void SpawnEgg()
         {
             if (eggPrefab == null || eggInstance != null || _planeManager.trackables.count == 0)

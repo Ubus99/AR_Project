@@ -15,7 +15,6 @@ namespace StateMachine
         public override void Enter()
         {
             base.Enter();
-
             Manager.eggSpawnManager.enabled = true;
         }
 
@@ -25,7 +24,7 @@ namespace StateMachine
             if (Manager.eggSpawnManager.canPlace &&
                 !_eggFound &&
                 !Manager.eggSpawnManager.eggInstance)
-                Manager.eggSpawnManager.SpawnEgg();
+                Manager.eggSpawnManager.SpawnEgg(1);
 
             if (!Manager.tapStartThisFrame)
                 return;
