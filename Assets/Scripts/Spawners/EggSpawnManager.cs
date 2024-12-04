@@ -10,6 +10,8 @@ namespace Spawners
 {
     public class EggSpawnManager : MonoBehaviour
     {
+        public static string EggName = "Egg";
+
         public GameObject eggPrefab;
         public float requiredArea = 75;
 
@@ -77,6 +79,7 @@ namespace Spawners
             );
 
             eggInstance = Instantiate(eggPrefab, point, Quaternion.identity);
+            eggInstance.name = EggName;
         }
 
         public void DestroyEgg()

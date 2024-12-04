@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Spawners;
 using UnityEngine;
 
 namespace StateMachine
@@ -30,11 +32,13 @@ namespace StateMachine
                 return;
 
             var ray = Camera.main.ScreenPointToRay(Manager.mTapStartPosition);
-            if (!Physics.Raycast(ray, out var hit))
+            var hits = Physics.RaycastAll(ray);
+            if (hits.Length == 0 || hits.All(hit => hit.transform.parent.name != EggSpawnManager.EggName))
                 return;
 
             Manager.eggSpawnManager.DestroyEgg();
             _eggFound = true;
+
         }
 
         public override void Exit()
