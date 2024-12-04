@@ -19,7 +19,7 @@ namespace StateMachine
         {
             base.Enter();
             _scene = SceneManager.LoadScene(
-                Manager.game1Scene.name,
+                "Minigame 1",
                 new LoadSceneParameters(LoadSceneMode.Additive)
             );
         }

@@ -580,7 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eggPrefab: {fileID: 7194947567173528958, guid: dcdcce03d0ff5c340866bfbdfc9116a3,
     type: 3}
-  requiredArea: 5
+  requiredArea: 10
 --- !u!1 &1382481865
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,7 +985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72791d0252aa8464499920c72661aca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  game1Scene: {fileID: 102900000, guid: 78683398390f54ad780ed5122c17a8ca, type: 3}
   modelSpawnManager: {fileID: 1311173191}
   eggSpawnManager: {fileID: 1311173193}
   mTapStartPosition: {x: 0, y: 0}

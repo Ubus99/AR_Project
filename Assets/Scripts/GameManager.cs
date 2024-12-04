@@ -9,9 +9,6 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
 public class GameManager : MonoBehaviour
 {
-
-    public SceneAsset game1Scene;
-
     public ImageSpawnManager modelSpawnManager;
     public EggSpawnManager eggSpawnManager;
 
