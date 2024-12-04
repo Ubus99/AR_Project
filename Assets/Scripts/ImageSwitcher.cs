@@ -5,11 +5,13 @@ public class ImageSwitcher : MonoBehaviour
     // Array to hold all images (from image0 to image9)
     public GameObject[] images;
 
+    public bool finished { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
         // Initially, show image0 and hide all others
-        SetImageVisibility(0);  // Show image0 initially
+        SetImageVisibility(0); // Show image0 initially
     }
 
     // Method to switch to a specific image based on the button press
@@ -24,7 +26,7 @@ public class ImageSwitcher : MonoBehaviour
     }
 
     // Helper method to set visibility of images by index
-    private void SetImageVisibility(int index)
+    void SetImageVisibility(int index)
     {
         // Loop through all images and set them active or inactive
         for (int i = 0; i < images.Length; i++)

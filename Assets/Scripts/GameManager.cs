@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using Spawners;
 using StateMachine;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 
 public class GameManager : MonoBehaviour
 {
+
+    public SceneAsset game1Scene;
 
     public ImageSpawnManager modelSpawnManager;
     public EggSpawnManager eggSpawnManager;
