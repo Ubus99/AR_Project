@@ -23,7 +23,9 @@ namespace Spawners
 
         ARTrackedImageManager _arTrackedImageManager;
         GameObject _chargerInstance;
+        TrackableId _chargerReference;
         GameObject _printerInstance;
+        TrackableId _printerReference;
 
         public PrinterUIController printerUI { get; private set; }
         public ChargerUIController chargerUI { get; private set; }
@@ -64,6 +66,7 @@ namespace Spawners
                             img,
                             printerPrefab,
                             visibleObjects[PossibleObjects.Printer]);
+                        _printerReference = img.trackableId;
                         printerUI = _printerInstance.GetComponentInChildren<PrinterUIController>();
                         break;
 
@@ -74,6 +77,7 @@ namespace Spawners
                             img,
                             chargerPrefab,
                             visibleObjects[PossibleObjects.Charger]);
+                        _chargerReference = img.trackableId;
                         chargerUI = _chargerInstance.GetComponentInChildren<ChargerUIController>();
                         break;
 
@@ -111,12 +115,18 @@ namespace Spawners
         {
             foreach (var img in _arTrackedImageManager.trackables)
             {
-                Update3DModel(img,
-                    visibleObjects[PossibleObjects.Charger],
-                    _chargerInstance);
-                Update3DModel(img,
-                    visibleObjects[PossibleObjects.Printer],
-                    _printerInstance);
+                if (img.trackableId == _chargerReference)
+                {
+                    Update3DModel(img,
+                        visibleObjects[PossibleObjects.Charger],
+                        _chargerInstance);
+                }
+                else if (img.trackableId == _printerReference)
+                {
+                    Update3DModel(img,
+                        visibleObjects[PossibleObjects.Printer],
+                        _printerInstance);
+                }
             }
         }
 
