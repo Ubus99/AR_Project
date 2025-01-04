@@ -151,13 +151,18 @@ namespace Spawners
 
             instTransf.gameObject.SetActive(true);
             instTransf.position = imgTransf.position;
-            if (Quaternion.Angle(instTransf.rotation, imgTransf.rotation) > 2)
-                instTransf.rotation.SetLookRotation(img.transform.forward);
+            if (Quaternion.Angle(instTransf.rotation, imgTransf.rotation) > 10)
+            {
+                var lookDirection = imgTransf.forward;
+                instTransf.rotation.SetLookRotation(lookDirection);
+            }
 
 #if UNITY_EDITOR
-            Debug.DrawRay(imgTransf.position, imgTransf.right / 2, Color.red);
-            Debug.DrawRay(imgTransf.position, imgTransf.up / 2, Color.green);
-            Debug.DrawRay(imgTransf.position, imgTransf.forward / 2, Color.blue);
+/*
+Debug.DrawRay(imgTransf.position, imgTransf.right / 2, Color.red);
+Debug.DrawRay(imgTransf.position, imgTransf.up / 2, Color.green);
+Debug.DrawRay(imgTransf.position, imgTransf.forward / 2, Color.blue);
+*/
 #endif
 
         }

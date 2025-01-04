@@ -33,16 +33,18 @@ namespace StateMachine.States
 
             var ray = Camera.main.ScreenPointToRay(Manager.mTapStartPosition);
             var hits = Physics.RaycastAll(ray);
-            if (hits.Length == 0)
-                if (hits.Any(hit =>
-                    {
-                        bool all = false;
-                        if (hit.transform.parent)
-                            all = hit.transform.parent.CompareTag(EggSpawnManager.EggTag);
-                        all = hit.transform.CompareTag(EggSpawnManager.EggTag);
-                        return all;
-                    }))
-                    return;
+            if (hits.Length <= 0)
+                return;
+            
+            if (!hits.Any(hit =>
+                {
+                    bool all = false;
+                    if (hit.transform.parent)
+                        all |= hit.transform.parent.CompareTag(EggSpawnManager.EggTag);
+                    all |= hit.transform.CompareTag(EggSpawnManager.EggTag);
+                    return all;
+                }))
+                return;
 
             Manager.eggSpawnManager.DestroyEgg();
             _eggFound = true;
