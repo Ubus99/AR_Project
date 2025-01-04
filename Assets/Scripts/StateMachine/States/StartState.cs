@@ -1,4 +1,6 @@
 ﻿using System;
+using Spawners;
+using StateMachine.States;
 using UnityEngine;
 
 namespace StateMachine
@@ -33,6 +35,7 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
+            Manager.eggSpawnManager.eggPtr = EggSpawnManager.MacIdx;
             return typeof(EasterEggState<UploadGameState>);
         }
     }

@@ -1,15 +1,16 @@
 ﻿using System;
+using Spawners;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace StateMachine
+namespace StateMachine.States
 {
     public class UploadGameState : AbstractMSM
     {
-        Scene _scene;
-        ImageSwitcher _ui;
 
         bool _initialized;
+        Scene _scene;
+        ImageSwitcher _ui;
 
         public UploadGameState(GameManager manager) : base(manager)
         {
@@ -43,9 +44,11 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            if (_ui && _ui.finished)
-                return typeof(EasterEggState<ChargeGameState>);
-            return typeof(UploadGameState);
+            if (!_ui || !_ui.finished)
+                return typeof(UploadGameState);
+            
+            Manager.eggSpawnManager.eggPtr = EggSpawnManager.CardIdx;
+            return typeof(EasterEggState<ChargeGameState>);
         }
     }
 }

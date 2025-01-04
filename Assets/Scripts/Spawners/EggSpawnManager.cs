@@ -10,13 +10,17 @@ namespace Spawners
 {
     public class EggSpawnManager : MonoBehaviour
     {
-        public static string EggName = "Egg";
+        public const string EggTag = "EasterEgg";
+        public const int MacIdx = 0;
+        public const int CardIdx = 1;
+        public const int InkIdx = 2;
 
-        public GameObject eggPrefab;
+        public List<GameObject> eggPrefab = new List<GameObject>();
         public float requiredArea = 75;
 
         ARPlaneManager _planeManager;
         List<ARPlane> _planes = new List<ARPlane>();
+        public int eggPtr { private get; set; } // spaghetti code... fuck it
 
         public GameObject eggInstance { get; private set; }
 
@@ -78,8 +82,8 @@ namespace Spawners
                 new Vector3(Random.value, Random.value, Random.value)
             );
 
-            eggInstance = Instantiate(eggPrefab, point, Quaternion.identity);
-            eggInstance.name = EggName;
+            eggInstance = Instantiate(eggPrefab[eggPtr], point, Quaternion.identity);
+            eggInstance.tag = EggTag;
         }
 
         public void DestroyEgg()

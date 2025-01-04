@@ -139,6 +139,8 @@ GameObject:
   - component: {fileID: 298930448}
   - component: {fileID: 298930442}
   - component: {fileID: 298930447}
+  - component: {fileID: 298930449}
+  - component: {fileID: 298930450}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -422,6 +424,39 @@ MonoBehaviour:
   m_EnvironmentDepthMode: 1
   m_EnvironmentDepthTemporalSmoothing: 1
   m_OcclusionPreferenceMode: 0
+--- !u!135 &298930449
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298930440}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.25
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &298930450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298930440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9aba82b8cdbf940a2a2a85526773c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &480792431
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,8 +613,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a0ee929028942e19e04e2718a180026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eggPrefab: {fileID: 7194947567173528958, guid: dcdcce03d0ff5c340866bfbdfc9116a3,
-    type: 3}
+  eggPrefab:
+  - {fileID: 621539932436130205, guid: e2f91da2bb52a834399dad071a928b09, type: 3}
+  - {fileID: 3096613921782073046, guid: fba487ee36fe8994797247f3ea654653, type: 3}
+  - {fileID: 561749758401122688, guid: 1fe3e8b884bb59c4bbbada1817e120d3, type: 3}
   requiredArea: 10
 --- !u!1 &1382481865
 GameObject:
@@ -987,7 +1024,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelSpawnManager: {fileID: 1311173191}
   eggSpawnManager: {fileID: 1311173193}
-  mTapStartPosition: {x: 0, y: 0}
   mTapStartPositionInput:
     m_InputSourceMode: 2
     m_InputAction:

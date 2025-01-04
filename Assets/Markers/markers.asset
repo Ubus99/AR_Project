@@ -24,7 +24,7 @@ MonoBehaviour:
       m_GuidLow: 8107775914863660964
       m_GuidHigh: 12363413031199892440
     m_Size: {x: 0.25, y: 0.25}
-    m_SpecifySize: 1
+    m_SpecifySize: 0
     m_Name: ar_marker_1
     m_Texture: {fileID: 2800000, guid: dbea8fa49b3c7084d8e31ad0a5aa93ab, type: 3}
   - m_SerializedGuid:
@@ -34,7 +34,7 @@ MonoBehaviour:
       m_GuidLow: 9328324679959583866
       m_GuidHigh: 7798062303768127865
     m_Size: {x: 0.25, y: 0.25}
-    m_SpecifySize: 1
+    m_SpecifySize: 0
     m_Name: ar_marker_2
     m_Texture: {fileID: 2800000, guid: 72801c7adddf817479a976705948386c, type: 3}
   - m_SerializedGuid:
@@ -44,7 +44,7 @@ MonoBehaviour:
       m_GuidLow: 18434418573473544480
       m_GuidHigh: 14029449657923619000
     m_Size: {x: 0.25, y: 0.25}
-    m_SpecifySize: 1
+    m_SpecifySize: 0
     m_Name: ar_marker_3
     m_Texture: {fileID: 2800000, guid: d8c0f9203605ffd4b848c3f6219eb2c2, type: 3}
   - m_SerializedGuid:
@@ -54,6 +54,6 @@ MonoBehaviour:
       m_GuidLow: 14534254427114189776
       m_GuidHigh: 15615582949104303515
     m_Size: {x: 0.25, y: 0.25}
-    m_SpecifySize: 1
+    m_SpecifySize: 0
     m_Name: ar_marker_alt
     m_Texture: {fileID: 2800000, guid: 4b4a33d00b65c9b49b3d0212f5b1b5d8, type: 3}

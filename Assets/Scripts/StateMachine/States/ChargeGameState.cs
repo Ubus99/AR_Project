@@ -1,5 +1,6 @@
 ﻿using System;
 using Spawners;
+using StateMachine.States;
 
 namespace StateMachine
 {
@@ -35,11 +36,11 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            if (_spawnManager.chargerUI?.done ?? false)
-            {
-                return typeof(EasterEggState<PrintGameState>);
-            }
-            return typeof(ChargeGameState);
+            if (!(_spawnManager.chargerUI?.done ?? false)) // wtf does this mean?
+                return typeof(ChargeGameState);
+            
+            Manager.eggSpawnManager.eggPtr = EggSpawnManager.InkIdx;
+            return typeof(EasterEggState<PrintGameState>);
         }
     }
 }

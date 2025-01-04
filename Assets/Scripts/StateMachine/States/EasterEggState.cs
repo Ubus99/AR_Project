@@ -3,7 +3,7 @@ using System.Linq;
 using Spawners;
 using UnityEngine;
 
-namespace StateMachine
+namespace StateMachine.States
 {
     public class EasterEggState<T> : AbstractMSM where T : AbstractMSM
     {
@@ -33,8 +33,16 @@ namespace StateMachine
 
             var ray = Camera.main.ScreenPointToRay(Manager.mTapStartPosition);
             var hits = Physics.RaycastAll(ray);
-            if (hits.Length == 0 || hits.All(hit => hit.transform.parent.name != EggSpawnManager.EggName))
-                return;
+            if (hits.Length == 0)
+                if (hits.Any(hit =>
+                    {
+                        bool all = false;
+                        if (hit.transform.parent)
+                            all = hit.transform.parent.CompareTag(EggSpawnManager.EggTag);
+                        all = hit.transform.CompareTag(EggSpawnManager.EggTag);
+                        return all;
+                    }))
+                    return;
 
             Manager.eggSpawnManager.DestroyEgg();
             _eggFound = true;
@@ -53,11 +61,7 @@ namespace StateMachine
 
         public override Type GetNextState()
         {
-            if (_eggFound)
-            {
-                return typeof(T);
-            }
-            return typeof(EasterEggState<T>);
+            return _eggFound ? typeof(T) : typeof(EasterEggState<T>);
         }
     }
 }
