@@ -1,9 +1,8 @@
 ﻿using System;
 using Spawners;
-using StateMachine.States;
 using UnityEngine;
 
-namespace StateMachine
+namespace StateMachine.States
 {
     public class StartState : AbstractMSM
     {
@@ -17,6 +16,7 @@ namespace StateMachine
 #if UNITY_EDITOR
             Debug.Log("Enter StartState");
 #endif
+            Manager.hintPanel.Show("this is a test");
         }
 
         public override void Execute()

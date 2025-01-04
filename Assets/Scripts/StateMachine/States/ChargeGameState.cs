@@ -1,8 +1,7 @@
 ﻿using System;
 using Spawners;
-using StateMachine.States;
 
-namespace StateMachine
+namespace StateMachine.States
 {
     public class ChargeGameState : AbstractMSM
     {
@@ -38,7 +37,7 @@ namespace StateMachine
         {
             if (!(_spawnManager.chargerUI?.done ?? false)) // wtf does this mean?
                 return typeof(ChargeGameState);
-            
+
             Manager.eggSpawnManager.eggPtr = EggSpawnManager.InkIdx;
             return typeof(EasterEggState<PrintGameState>);
         }

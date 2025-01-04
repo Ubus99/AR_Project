@@ -1,8 +1,7 @@
 ﻿using System;
 using Spawners;
-using StateMachine.States;
 
-namespace StateMachine
+namespace StateMachine.States
 {
     public class PrintGameState : AbstractMSM
     {

@@ -11,6 +11,7 @@ namespace StateMachine
     {
         public ImageSpawnManager modelSpawnManager;
         public EggSpawnManager eggSpawnManager; // bad code
+        public HintPanel hintPanel;
 
         [SerializeField]
         XRInputValueReader<Vector2> mTapStartPositionInput = new XRInputValueReader<Vector2>("Tap Start Position");
@@ -50,9 +51,10 @@ namespace StateMachine
         // Start is called before the first frame update
         void Start()
         {
-            _currentState = new StartState(this);
             modelSpawnManager = FindObjectOfType<ImageSpawnManager>();
             eggSpawnManager = FindObjectOfType<EggSpawnManager>();
+            _currentState = new StartState(this);
+            _currentState.Enter();
         }
 
         // Update is called once per frame
