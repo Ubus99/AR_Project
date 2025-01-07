@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -76,9 +77,16 @@ namespace Spawners
 
             var targetPlane = _planes[Random.Range(0, _planes.Count - 1)];
 
-            var offset = targetPlane.center - (Vector3)targetPlane.extents;
+            var diagonal = new Vector3(targetPlane.extents.x, 0, targetPlane.extents.y);
+            var offset = targetPlane.center - diagonal;
+            DebugDrawer.Lines["SpawnManager"] =
+                new DebugDrawer.Line
+                {
+                    A = offset,
+                    B = targetPlane.center + diagonal,
+                };
             var point = offset + Vector3.Scale(
-                targetPlane.extents,
+                diagonal,
                 new Vector3(Random.value, Random.value, Random.value)
             );
 

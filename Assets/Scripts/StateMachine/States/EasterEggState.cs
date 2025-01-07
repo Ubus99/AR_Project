@@ -26,7 +26,7 @@ namespace StateMachine.States
             if (Manager.eggSpawnManager.canPlace &&
                 !_eggFound &&
                 !Manager.eggSpawnManager.eggInstance)
-                Manager.eggSpawnManager.SpawnEgg(1);
+                Manager.eggSpawnManager.SpawnEgg(3);
 
             if (!Manager.tapStartThisFrame)
                 return;

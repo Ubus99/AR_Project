@@ -16,7 +16,7 @@ namespace StateMachine.States
 #if UNITY_EDITOR
             Debug.Log("Enter StartState");
 #endif
-            Manager.hintPanel.Show("this is a test");
+            Manager.hintPanel.Show("To upload files to the print service, search for your laptop");
         }
 
         public override void Execute()
