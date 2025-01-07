@@ -26,15 +26,16 @@ public class HintPanel : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        Debug.Log("Show hint panel");
     }
 
     public void Show(string hint)
     {
         label.text = hint;
-        gameObject.SetActive(true);
+        Show();
     }
 
-    void CloseHintPanel()
+    public void CloseHintPanel()
     {
         gameObject.SetActive(false);
     }

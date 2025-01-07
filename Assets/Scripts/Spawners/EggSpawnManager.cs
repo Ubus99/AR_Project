@@ -19,8 +19,13 @@ namespace Spawners
         public List<GameObject> eggPrefab = new List<GameObject>();
         public float requiredArea = 75;
 
+        AsyncInstantiateOperation<GameObject> _eggInstantiateOperation;
+
         ARPlaneManager _planeManager;
         List<ARPlane> _planes = new List<ARPlane>();
+
+        bool _waitForInstantiation;
+
         public int eggPtr { private get; set; } // spaghetti code... fuck it
 
         public GameObject eggInstance { get; private set; }
@@ -40,6 +45,16 @@ namespace Spawners
         void Awake()
         {
             _planeManager = FindObjectOfType<ARPlaneManager>();
+        }
+
+        void Update()
+        {
+            if (!_waitForInstantiation || _eggInstantiateOperation.progress < 1)
+                return;
+
+            eggInstance = _eggInstantiateOperation.Result[0];
+            eggInstance.tag = EggTag;
+            _waitForInstantiation = false;
         }
 
         void OnEnable()
@@ -72,7 +87,10 @@ namespace Spawners
 
         public void SpawnEgg()
         {
-            if (eggPrefab == null || eggInstance != null || _planeManager.trackables.count == 0)
+            if (eggPrefab == null || //do not overwrite
+                eggInstance != null || // make sure prefab exists
+                _waitForInstantiation || //prevent double init
+                _planeManager.trackables.count == 0) // make sure there is ground
                 return;
 
             var targetPlane = _planes[Random.Range(0, _planes.Count - 1)];
@@ -90,8 +108,8 @@ namespace Spawners
                 new Vector3(Random.value, Random.value, Random.value)
             );
 
-            eggInstance = Instantiate(eggPrefab[eggPtr], point, Quaternion.identity);
-            eggInstance.tag = EggTag;
+            _eggInstantiateOperation = InstantiateAsync(eggPrefab[eggPtr], point, Quaternion.identity);
+            _waitForInstantiation = true;
         }
 
         public void DestroyEgg()
