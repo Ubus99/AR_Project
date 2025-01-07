@@ -23,9 +23,7 @@ namespace Spawners
 
         public override void Spawn(GameObject prefab, Transform parent, Vector3 point)
         {
-            if (prefab == null || //do not overwrite
-                instance != null || // make sure prefab exists
-                _instantiateOperation is { isDone: false }) //prevent double init
+            if (!CanInstantiate(prefab)) //prevent double init
                 return;
 
             _instantiateOperation = InstantiateAsync(prefab, parent, point, Quaternion.identity);
@@ -34,13 +32,19 @@ namespace Spawners
 
         public override void Spawn(GameObject prefab, Vector3 point)
         {
-            if (prefab == null || //do not overwrite
-                instance != null || // make sure prefab exists
-                _instantiateOperation is { isDone: false }) //prevent double init
+            if (!CanInstantiate(prefab))
                 return;
 
             _instantiateOperation = InstantiateAsync(prefab, point, Quaternion.identity);
             _inProgress = true;
+        }
+
+        bool CanInstantiate(GameObject prefab)
+        {
+            return prefab != null && //do not overwrite
+                instance == null && // make sure prefab exists
+                !_inProgress &&
+                _instantiateOperation is not { isDone: false }; //prevent double init
         }
 
         public void Destroy()

@@ -3,9 +3,8 @@ using Quaternion = UnityEngine.Quaternion;
 
 namespace Spawners
 {
-    public abstract class SyncSpawner : InstanceManager
+    public class SyncSpawner : InstanceManager
     {
-
         public override void Spawn(GameObject prefab, Transform parent, Vector3 point)
         {
             if (prefab == null || //do not overwrite
