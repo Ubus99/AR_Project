@@ -2,41 +2,44 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HintPanel : MonoBehaviour
+namespace UI
 {
-    public TextMeshProUGUI label;
-    public Button button;
-
-    void Awake()
+    public class HintPanel : MonoBehaviour
     {
-        if (!label)
-            label = GetComponentInChildren<TextMeshProUGUI>();
+        public TextMeshProUGUI label;
+        public Button button;
 
-        if (!button)
-            button = GetComponentInChildren<Button>();
+        void Awake()
+        {
+            if (!label)
+                label = GetComponentInChildren<TextMeshProUGUI>();
 
-        button.onClick.AddListener(CloseHintPanel);
-    }
+            if (!button)
+                button = GetComponentInChildren<Button>();
 
-    void OnDisable()
-    {
-        button.onClick.RemoveListener(CloseHintPanel);
-    }
+            button.onClick.AddListener(CloseHintPanel);
+        }
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-        Debug.Log("Show hint panel");
-    }
+        void OnDisable()
+        {
+            button.onClick.RemoveListener(CloseHintPanel);
+        }
 
-    public void Show(string hint)
-    {
-        label.text = hint;
-        Show();
-    }
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            Debug.Log("Show hint panel");
+        }
 
-    public void CloseHintPanel()
-    {
-        gameObject.SetActive(false);
+        public void Show(string hint)
+        {
+            label.text = hint;
+            Show();
+        }
+
+        public void CloseHintPanel()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

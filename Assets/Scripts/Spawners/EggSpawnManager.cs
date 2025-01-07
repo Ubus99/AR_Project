@@ -4,12 +4,11 @@ using Helpers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 
 namespace Spawners
 {
-    public class EggSpawnManager : MonoBehaviour
+    public class EggSpawnManager : AsyncSpawner
     {
         public const string EggTag = "EasterEgg";
         public const int MacIdx = 0;
@@ -19,16 +18,10 @@ namespace Spawners
         public List<GameObject> eggPrefab = new List<GameObject>();
         public float requiredArea = 75;
 
-        AsyncInstantiateOperation<GameObject> _eggInstantiateOperation;
-
         ARPlaneManager _planeManager;
         List<ARPlane> _planes = new List<ARPlane>();
 
-        bool _waitForInstantiation;
-
         public int eggPtr { private get; set; } // spaghetti code... fuck it
-
-        public GameObject eggInstance { get; private set; }
 
         float surfaceArea
         {
@@ -47,16 +40,6 @@ namespace Spawners
             _planeManager = FindObjectOfType<ARPlaneManager>();
         }
 
-        void Update()
-        {
-            if (!_waitForInstantiation || _eggInstantiateOperation.progress < 1)
-                return;
-
-            eggInstance = _eggInstantiateOperation.Result[0];
-            eggInstance.tag = EggTag;
-            _waitForInstantiation = false;
-        }
-
         void OnEnable()
         {
             _planeManager.planesChanged += OnUpdatePlanes;
@@ -65,6 +48,11 @@ namespace Spawners
         void OnDisable()
         {
             _planeManager.planesChanged -= OnUpdatePlanes;
+        }
+
+        protected override void _OnInstantiationComplete()
+        {
+            instance.tag = EggTag;
         }
 
         void OnUpdatePlanes(ARPlanesChangedEventArgs arPlanesChangedEventArgs)
@@ -87,10 +75,7 @@ namespace Spawners
 
         public void SpawnEgg()
         {
-            if (eggPrefab == null || //do not overwrite
-                eggInstance != null || // make sure prefab exists
-                _waitForInstantiation || //prevent double init
-                _planeManager.trackables.count == 0) // make sure there is ground
+            if (_planeManager.trackables.count == 0) // make sure there is ground
                 return;
 
             var targetPlane = _planes[Random.Range(0, _planes.Count - 1)];
@@ -108,13 +93,12 @@ namespace Spawners
                 new Vector3(Random.value, Random.value, Random.value)
             );
 
-            _eggInstantiateOperation = InstantiateAsync(eggPrefab[eggPtr], point, Quaternion.identity);
-            _waitForInstantiation = true;
+            Spawn(eggPrefab[eggPtr], point);
         }
 
         public void DestroyEgg()
         {
-            Destroy(eggInstance);
+            Destroy();
         }
     }
 }

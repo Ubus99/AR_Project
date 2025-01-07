@@ -3,29 +3,32 @@ using Quaternion = UnityEngine.Quaternion;
 
 namespace Spawners
 {
-    public abstract class AsynchSpawner : MonoBehaviour
+    public class AsyncSpawner : MonoBehaviour
     {
-        AsyncInstantiateOperation<GameObject> _eggInstantiateOperation;
+
+        public delegate void InstantiationComplete();
+
+        AsyncInstantiateOperation<GameObject> _instantiateOperation;
         bool _waitForInstantiation;
 
         public GameObject instance { get; private set; }
 
         void Update()
         {
-            if (!_waitForInstantiation || _eggInstantiateOperation.progress < 1)
+            if (!_waitForInstantiation || !_instantiateOperation.isDone)
                 return;
 
-            instance = _eggInstantiateOperation.Result[0];
-            OnInstantiationComplete();
+            instance = _instantiateOperation.Result[0];
+            _OnInstantiationComplete();
             _waitForInstantiation = false;
         }
 
-        abstract protected void OnInstantiationComplete();
-
-        public void SpawnEgg(int delay)
+        virtual protected void _OnInstantiationComplete()
         {
-            Invoke(nameof(SpawnEgg), delay);
+            OnInstantiationComplete?.Invoke();
         }
+
+        public event InstantiationComplete OnInstantiationComplete;
 
         public void Spawn(GameObject prefab, Vector3 point)
         {
@@ -34,7 +37,7 @@ namespace Spawners
                 _waitForInstantiation) //prevent double init
                 return;
 
-            _eggInstantiateOperation = InstantiateAsync(prefab, point, Quaternion.identity);
+            _instantiateOperation = InstantiateAsync(prefab, point, Quaternion.identity);
             _waitForInstantiation = true;
         }
 

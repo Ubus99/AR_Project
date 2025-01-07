@@ -25,7 +25,7 @@ namespace StateMachine.States
             base.Execute();
             if (Manager.eggSpawnManager.canPlace &&
                 !_eggFound &&
-                !Manager.eggSpawnManager.eggInstance)
+                !Manager.eggSpawnManager.instance)
                 Manager.eggSpawnManager.SpawnEgg(3);
 
             if (!Manager.tapStartThisFrame)

@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Quaternion = UnityEngine.Quaternion;
-using Random = UnityEngine.Random;
 
 namespace Spawners
 {
@@ -22,9 +20,11 @@ namespace Spawners
         public GameObject printerPrefab;
 
         ARTrackedImageManager _arTrackedImageManager;
-        GameObject _chargerInstance;
+
+        AsyncSpawner _chargerManager;
         TrackableId _chargerReference;
-        GameObject _printerInstance;
+        
+        AsyncSpawner _printerManager;
         TrackableId _printerReference;
 
         public PrinterUIController printerUI { get; private set; }
@@ -35,6 +35,8 @@ namespace Spawners
         void Awake()
         {
             _arTrackedImageManager = FindObjectOfType<ARTrackedImageManager>();
+            _chargerManager = gameObject.AddComponent<AsyncSpawner>();
+            _printerManager = gameObject.AddComponent<AsyncSpawner>();
         }
 
         void OnEnable()
@@ -60,25 +62,25 @@ namespace Spawners
                 switch (img.referenceImage.name)
                 {
                     case "ar_marker_1":
-                        if (_printerInstance)
+                        if (_printerManager.instance)
                             return;
-                        _printerInstance = TryInstantiateModel(
-                            img,
-                            printerPrefab,
-                            visibleObjects[PossibleObjects.Printer]);
-                        _printerReference = img.trackableId;
-                        printerUI = _printerInstance.GetComponentInChildren<PrinterUIController>();
+                        _printerManager.Spawn(printerPrefab, img.transform.position);
+                        _printerManager.OnInstantiationComplete += () =>
+                        {
+                            _printerReference = img.trackableId;
+                            printerUI = _printerManager.instance.GetComponentInChildren<PrinterUIController>();
+                        };
                         break;
 
                     case "ar_marker_2":
-                        if (_chargerInstance)
+                        if (_chargerManager.instance)
                             return;
-                        _chargerInstance = TryInstantiateModel(
-                            img,
-                            chargerPrefab,
-                            visibleObjects[PossibleObjects.Charger]);
-                        _chargerReference = img.trackableId;
-                        chargerUI = _chargerInstance.GetComponentInChildren<ChargerUIController>();
+                        _chargerManager.Spawn(chargerPrefab, img.transform.position);
+                        _printerManager.OnInstantiationComplete += () =>
+                        {
+                            _chargerReference = img.trackableId;
+                            chargerUI = _chargerManager.instance.GetComponentInChildren<ChargerUIController>();
+                        };
                         break;
 
                     default:
@@ -88,44 +90,27 @@ namespace Spawners
             }
         }
 
-        static GameObject TryInstantiateModel(ARTrackedImage img, GameObject prefab, bool visibility)
-        {
-
-            var go = Instantiate(
-                prefab,
-                img.transform.parent,
-                false);
-            go.SetActive(visibility);
-
-#if UNITY_EDITOR
-            try
-            {
-                go.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-#endif
-            return go;
-        }
-
         public void Update3DModels()
         {
             foreach (var img in _arTrackedImageManager.trackables)
             {
                 if (img.trackableId == _chargerReference)
                 {
+                    if (!_chargerManager.instance)
+                        return;
+
                     Update3DModel(img,
                         visibleObjects[PossibleObjects.Charger],
-                        _chargerInstance);
+                        _chargerManager.instance);
                 }
                 else if (img.trackableId == _printerReference)
                 {
+                    if (!_printerManager.instance)
+                        return;
+
                     Update3DModel(img,
                         visibleObjects[PossibleObjects.Printer],
-                        _printerInstance);
+                        _printerManager.instance);
                 }
             }
         }
