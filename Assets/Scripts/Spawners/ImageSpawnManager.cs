@@ -21,10 +21,10 @@ namespace Spawners
 
         ARTrackedImageManager _arTrackedImageManager;
 
-        AsyncSpawner _chargerManager;
+        InstanceManager _chargerManager;
         TrackableId _chargerReference;
-        
-        AsyncSpawner _printerManager;
+
+        InstanceManager _printerManager;
         TrackableId _printerReference;
 
         public PrinterUIController printerUI { get; private set; }
@@ -35,8 +35,8 @@ namespace Spawners
         void Awake()
         {
             _arTrackedImageManager = FindObjectOfType<ARTrackedImageManager>();
-            _chargerManager = gameObject.AddComponent<AsyncSpawner>();
-            _printerManager = gameObject.AddComponent<AsyncSpawner>();
+            _chargerManager = gameObject.AddComponent<SyncSpawner>();
+            _printerManager = gameObject.AddComponent<SyncSpawner>();
         }
 
         void OnEnable()
