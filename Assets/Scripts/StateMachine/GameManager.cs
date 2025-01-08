@@ -10,7 +10,6 @@ namespace StateMachine
 {
     public class GameManager : MonoBehaviour
     {
-        public HintPanel hintPanel;
         public ImageSpawnManager modelSpawnManager;
         public EggSpawnManager eggSpawnManager; // bad code
 
@@ -55,11 +54,19 @@ namespace StateMachine
             modelSpawnManager = FindObjectOfType<ImageSpawnManager>();
             eggSpawnManager = FindObjectOfType<EggSpawnManager>();
             _currentState = new StartState(this);
-            _currentState.Enter();
         }
 
         // Update is called once per frame
         void Update()
+        {
+            if (!HintPanel.ready) // wait for UI to be ready
+            {
+                return;
+            }
+            ExecuteState();
+        }
+
+        void ExecuteState()
         {
             if (_currentState == null)
             {

@@ -1,11 +1,13 @@
 ﻿using System;
 using Spawners;
+using UI;
 using UnityEngine;
 
 namespace StateMachine.States
 {
     public class StartState : AbstractMSM
     {
+        bool _inProgress;
 
         public StartState(GameManager manager) : base(manager)
         {
@@ -16,7 +18,7 @@ namespace StateMachine.States
 #if UNITY_EDITOR
             Debug.Log("Enter StartState");
 #endif
-            Manager.hintPanel.Show("To upload files to the print service, search for your laptop");
+            HintPanel.Show("To upload files to the print service, search for your laptop");
         }
 
         public override void Execute()
@@ -24,6 +26,11 @@ namespace StateMachine.States
 #if UNITY_EDITOR
             Debug.Log("Execute StartState");
 #endif
+            if (!_inProgress)
+            {
+                Enter();
+                _inProgress = true;
+            }
         }
 
         public override void Exit()

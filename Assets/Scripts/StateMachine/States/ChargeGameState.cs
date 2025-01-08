@@ -1,5 +1,6 @@
 ﻿using System;
 using Spawners;
+using UI;
 
 namespace StateMachine.States
 {
@@ -28,7 +29,7 @@ namespace StateMachine.States
         public override void Exit()
         {
             base.Exit();
-            Manager.hintPanel.CloseHintPanel();
+            HintPanel.CloseHintPanel();
 
             _spawnManager.visibleObjects[ImageSpawnManager.PossibleObjects.Charger] = false;
             _spawnManager.Update3DModels();
@@ -40,8 +41,8 @@ namespace StateMachine.States
             if (!(_spawnManager.chargerUI?.done ?? false)) // wtf does this mean?
                 return typeof(ChargeGameState);
 
-            Manager.hintPanel.Show("To Print, find some Ink");
-            
+            HintPanel.Show("To Print, find some Ink");
+
             Manager.eggSpawnManager.eggPtr = EggSpawnManager.InkIdx;
             return typeof(EasterEggState<PrintGameState>);
         }

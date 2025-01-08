@@ -6,8 +6,16 @@ namespace UI
 {
     public class HintPanel : MonoBehaviour
     {
+
+        static HintPanel _instance; // could lead to issues, but required for flexibility
+
         public TextMeshProUGUI label;
         public Button button;
+
+        public static bool ready
+        {
+            get => _instance != null;
+        }
 
         void Awake()
         {
@@ -18,6 +26,10 @@ namespace UI
                 button = GetComponentInChildren<Button>();
 
             button.onClick.AddListener(CloseHintPanel);
+
+            if (!label || !button || _instance)
+                return;
+            _instance = this;
         }
 
         void OnDisable()
@@ -25,21 +37,29 @@ namespace UI
             button.onClick.RemoveListener(CloseHintPanel);
         }
 
-        public void Show()
+        public static void Show()
         {
-            gameObject.SetActive(true);
+            if (_instance == null)
+            {
+                Debug.LogError("HintPanel not instantiated");
+                return;
+            }
+            _instance.gameObject.SetActive(true);
             Debug.Log("Show hint panel");
         }
 
-        public void Show(string hint)
+        public static void Show(string hint)
         {
-            label.text = hint;
+            if (!_instance)
+                return;
+
+            _instance.label.text = hint;
             Show();
         }
 
-        public void CloseHintPanel()
+        public static void CloseHintPanel()
         {
-            gameObject.SetActive(false);
+            _instance?.gameObject.SetActive(false);
         }
     }
 }

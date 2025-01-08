@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Spawners;
+using UI;
 using UnityEngine;
 
 namespace StateMachine.States
@@ -59,7 +60,7 @@ namespace StateMachine.States
             Manager.eggSpawnManager.DestroyEgg();
             _eggFound = true;
 
-            Manager.hintPanel.CloseHintPanel();
+            HintPanel.CloseHintPanel();
             Manager.eggSpawnManager.enabled = false;
         }
 
