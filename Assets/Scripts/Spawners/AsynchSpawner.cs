@@ -16,6 +16,7 @@ namespace Spawners
                 return;
 
             instance = _instantiateOperation.Result[0];
+            _instantiateOperation = null;
             _OnInstantiationComplete();
             inProgress = false;
         }
@@ -43,7 +44,7 @@ namespace Spawners
         {
             return prefab != null && //do not overwrite
                 instance == null && // make sure prefab exists
-                !inProgress &&
+                //!inProgress &&
                 _instantiateOperation is not { isDone: false }; //prevent double init
         }
 

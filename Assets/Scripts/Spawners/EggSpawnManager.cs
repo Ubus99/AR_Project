@@ -70,7 +70,10 @@ namespace Spawners
 
         public void SpawnEgg(int delay)
         {
+            if (_planeManager.trackables.count == 0) // make sure there is ground
+                return;
             Invoke(nameof(SpawnEgg), delay);
+            inProgress = true;
         }
 
         public void SpawnEgg()

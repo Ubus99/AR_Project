@@ -40,6 +40,8 @@ namespace StateMachine.States
             if (!(_spawnManager.chargerUI?.done ?? false)) // wtf does this mean?
                 return typeof(ChargeGameState);
 
+            Manager.hintPanel.Show("To Print, find some Ink");
+            
             Manager.eggSpawnManager.eggPtr = EggSpawnManager.InkIdx;
             return typeof(EasterEggState<PrintGameState>);
         }

@@ -10,6 +10,7 @@ namespace StateMachine.States
         public PrintGameState(GameManager manager) : base(manager)
         {
             _spawnManager = manager.modelSpawnManager;
+            manager.hintPanel.Show("To log in, touch your library card to the NFC field (click the field)" );
         }
 
         public override void Enter()
