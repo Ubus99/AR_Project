@@ -64,23 +64,25 @@ namespace Spawners
                     case "ar_marker_1":
                         if (_printerManager.instance)
                             return;
-                        _printerManager.Spawn(printerPrefab, img.transform.position);
                         _printerManager.OnInstantiationComplete += () =>
                         {
                             _printerReference = img.trackableId;
                             printerUI = _printerManager.instance.GetComponentInChildren<PrinterUIController>();
+                            _printerManager.instance.SetActive(false);
                         };
+                        _printerManager.Spawn(printerPrefab, img.transform.position);
                         break;
 
                     case "ar_marker_2":
                         if (_chargerManager.instance)
                             return;
-                        _chargerManager.Spawn(chargerPrefab, img.transform.position);
-                        _printerManager.OnInstantiationComplete += () =>
+                        _chargerManager.OnInstantiationComplete += () =>
                         {
                             _chargerReference = img.trackableId;
                             chargerUI = _chargerManager.instance.GetComponentInChildren<ChargerUIController>();
+                            _chargerManager.instance.SetActive(false);
                         };
+                        _chargerManager.Spawn(chargerPrefab, img.transform.position);
                         break;
 
                     default:

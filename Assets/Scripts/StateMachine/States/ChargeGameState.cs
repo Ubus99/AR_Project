@@ -28,6 +28,8 @@ namespace StateMachine.States
         public override void Exit()
         {
             base.Exit();
+            Manager.hintPanel.CloseHintPanel();
+
             _spawnManager.visibleObjects[ImageSpawnManager.PossibleObjects.Charger] = false;
             _spawnManager.Update3DModels();
             _spawnManager.enabled = false;

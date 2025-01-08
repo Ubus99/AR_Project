@@ -227,7 +227,8 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Now Choose a file to upload
+          m_StringArgument: "To start the print process click on \u201CChoose file\u201D
+            and upload file"
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &54690723
@@ -268,7 +269,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54690720}
   m_CullTransparentMesh: 1
---- !u!21 &95906534
+--- !u!21 &102540426
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -306,7 +307,7 @@ Material:
     - _UseUIAlphaClip: 0
     m_Colors:
     - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 1048, g: 339.5, b: 48, a: 0}
+    - _WidthHeightRadius: {r: 1048, g: 337.36, b: 48, a: 0}
   m_BuildTextureStacks: []
 --- !u!1 &152354039
 GameObject:
@@ -651,46 +652,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215798070}
   m_CullTransparentMesh: 1
---- !u!21 &219889015
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI/RoundedCorners/RoundedCorners
-  m_Shader: {fileID: 4800000, guid: 0bd2ec5d73751e34a814274a454bec41, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    - _UseUIAlphaClip: 0
-    m_Colors:
-    - _OuterUV: {r: 0, g: 0, b: 1, a: 1}
-    - _WidthHeightRadius: {r: 1048, g: 339.5, b: 48, a: 0}
-  m_BuildTextureStacks: []
 --- !u!1 &289908085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1746,6 +1707,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1518923158}
+        m_TargetAssemblyTypeName: UI.HintPanel, Assembly-CSharp
+        m_MethodName: CloseHintPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1220185296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2325,7 +2298,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 95906534}
+      objectReference: {fileID: 102540426}
     - target: {fileID: 6570860621071177187, guid: 5d74fa2aa4402b846be81c29d5a28a11,
         type: 3}
       propertyPath: m_Name
@@ -2339,7 +2312,7 @@ PrefabInstance:
     - target: {fileID: 7240708431331895394, guid: 5d74fa2aa4402b846be81c29d5a28a11,
         type: 3}
       propertyPath: m_text
-      value: To access Printing services, log into your THI account
+      value: Click on the above fields to add information about your Email & Password
       objectReference: {fileID: 0}
     - target: {fileID: 7240708431331895394, guid: 5d74fa2aa4402b846be81c29d5a28a11,
         type: 3}
@@ -3128,6 +3101,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1518923158}
+        m_TargetAssemblyTypeName: UI.HintPanel, Assembly-CSharp
+        m_MethodName: CloseHintPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1858188734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3525,6 +3510,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1518923158}
+        m_TargetAssemblyTypeName: UI.HintPanel, Assembly-CSharp
+        m_MethodName: CloseHintPanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

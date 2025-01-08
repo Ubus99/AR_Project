@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using StateMachine;
 using UnityEngine;
 
 namespace UI
@@ -6,6 +7,7 @@ namespace UI
     public class ChargerUIController : MonoBehaviour
     {
         public List<RectTransform> panels = new List<RectTransform>();
+
         public bool done { get; set; }
 
         // Start is called before the first frame update
@@ -13,12 +15,6 @@ namespace UI
         {
             if (panels.Count > 0)
                 SwitchScreen(panels[0]);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         public void SwitchScreen(RectTransform screen)

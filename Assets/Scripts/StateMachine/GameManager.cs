@@ -10,9 +10,9 @@ namespace StateMachine
 {
     public class GameManager : MonoBehaviour
     {
+        public HintPanel hintPanel;
         public ImageSpawnManager modelSpawnManager;
         public EggSpawnManager eggSpawnManager; // bad code
-        public HintPanel hintPanel;
 
         [SerializeField]
         XRInputValueReader<Vector2> mTapStartPositionInput = new XRInputValueReader<Vector2>("Tap Start Position");

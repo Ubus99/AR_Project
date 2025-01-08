@@ -23,8 +23,9 @@ namespace StateMachine.States
         public override void Execute()
         {
             base.Execute();
-            if (Manager.eggSpawnManager.canPlace &&
-                !_eggFound &&
+            if (!_eggFound &&
+                Manager.eggSpawnManager.canPlace &&
+                !Manager.eggSpawnManager.inProgress &&
                 !Manager.eggSpawnManager.instance)
                 Manager.eggSpawnManager.SpawnEgg(3);
 
@@ -35,7 +36,7 @@ namespace StateMachine.States
             var hits = Physics.RaycastAll(ray);
             if (hits.Length <= 0)
                 return;
-            
+
             if (!hits.Any(hit =>
                 {
                     bool all = false;
@@ -58,6 +59,7 @@ namespace StateMachine.States
             Manager.eggSpawnManager.DestroyEgg();
             _eggFound = true;
 
+            Manager.hintPanel.CloseHintPanel();
             Manager.eggSpawnManager.enabled = false;
         }
 

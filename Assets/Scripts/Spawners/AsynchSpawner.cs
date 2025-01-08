@@ -6,18 +6,18 @@ namespace Spawners
     public class AsyncSpawner : InstanceManager
     {
 
-        bool _inProgress;
-
         AsyncInstantiateOperation<GameObject> _instantiateOperation;
+
+        public bool inProgress { get; protected set; }
 
         void Update()
         {
-            if (_instantiateOperation is not { isDone: true } || !_inProgress)
+            if (_instantiateOperation is not { isDone: true } || !inProgress)
                 return;
 
             instance = _instantiateOperation.Result[0];
             _OnInstantiationComplete();
-            _inProgress = false;
+            inProgress = false;
         }
 
 
@@ -27,7 +27,7 @@ namespace Spawners
                 return;
 
             _instantiateOperation = InstantiateAsync(prefab, parent, point, Quaternion.identity);
-            _inProgress = true;
+            inProgress = true;
         }
 
         public override void Spawn(GameObject prefab, Vector3 point)
@@ -36,21 +36,21 @@ namespace Spawners
                 return;
 
             _instantiateOperation = InstantiateAsync(prefab, point, Quaternion.identity);
-            _inProgress = true;
+            inProgress = true;
         }
 
         bool CanInstantiate(GameObject prefab)
         {
             return prefab != null && //do not overwrite
                 instance == null && // make sure prefab exists
-                !_inProgress &&
+                !inProgress &&
                 _instantiateOperation is not { isDone: false }; //prevent double init
         }
 
         public void Destroy()
         {
             Destroy(instance);
-            _inProgress = false;
+            inProgress = false;
         }
     }
 }
