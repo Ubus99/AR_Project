@@ -110,5 +110,4 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.myBuildStep.outputs.buildVersion }}
-        artifacts: "Build-${{ matrix.targetPlatform }}"
-
+        artifacts: "Build-*"
