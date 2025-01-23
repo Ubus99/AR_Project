@@ -94,9 +94,21 @@ jobs:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
-      - name: Release Artifacts
-        uses: ncipollo/release-action@v1
-        with:
-          tag: ${{ steps.myBuildStep.outputs.buildVersion }}
-          artifacts: "Build-${{ matrix.targetPlatform }}"
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: buildAndTest
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: Build-${{ matrix.targetPlatform }}
+        
+    - name: release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ steps.myBuildStep.outputs.buildVersion }}
+        artifacts: "Build-${{ matrix.targetPlatform }}"
 
