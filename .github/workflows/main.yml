@@ -71,6 +71,7 @@ jobs:
       # Build
       - name: Build
         uses: game-ci/unity-builder@v4
+        id: myBuildStep
         env:
           UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
