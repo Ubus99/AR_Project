@@ -29,7 +29,6 @@ namespace StateMachine.States
         public override void Exit()
         {
             base.Exit();
-            HintPanel.CloseHintPanel();
 
             _spawnManager.visibleObjects[ImageSpawnManager.PossibleObjects.Charger] = false;
             _spawnManager.Update3DModels();
@@ -41,7 +40,7 @@ namespace StateMachine.States
             if (!(_spawnManager.chargerUI?.done ?? false)) // wtf does this mean?
                 return typeof(ChargeGameState);
 
-            HintPanel.Show("To Print, find some Ink");
+            HintPanel.Show("To proceed, find an Ink cartridge. (Dont worry, you wont have to do this IRL)");
 
             Manager.eggSpawnManager.eggPtr = EggSpawnManager.InkIdx;
             return typeof(EasterEggState<PrintGameState>);

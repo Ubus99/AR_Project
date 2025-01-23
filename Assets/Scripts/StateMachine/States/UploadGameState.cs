@@ -24,6 +24,7 @@ namespace StateMachine.States
                 "Minigame 1",
                 new LoadSceneParameters(LoadSceneMode.Additive)
             );
+            HintPanel.Show("Click on the above fields to add information about your Email & Password");
         }
 
         public override void Execute()
@@ -47,6 +48,8 @@ namespace StateMachine.States
         {
             if (!_ui || !_ui.finished)
                 return typeof(UploadGameState);
+            
+            HintPanel.Show("Find your library card to recharge your printing credits");
             
             Manager.eggSpawnManager.eggPtr = EggSpawnManager.CardIdx;
             return typeof(EasterEggState<ChargeGameState>);

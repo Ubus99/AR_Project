@@ -39,7 +39,7 @@ namespace UI
 
         public static void Show()
         {
-            if (_instance == null)
+            if (!_instance)
             {
                 Debug.LogError("HintPanel not instantiated");
                 return;
@@ -51,7 +51,10 @@ namespace UI
         public static void Show(string hint)
         {
             if (!_instance)
+            {
+                Debug.LogError("HintPanel not instantiated");
                 return;
+            }
 
             _instance.label.text = hint;
             Show();
@@ -59,7 +62,12 @@ namespace UI
 
         public static void CloseHintPanel()
         {
-            _instance?.gameObject.SetActive(false);
+            if (!_instance)
+            {
+                Debug.LogError("HintPanel not instantiated");
+                return;
+            }
+            _instance.gameObject.SetActive(false);
         }
     }
 }

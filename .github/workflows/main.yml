@@ -2,8 +2,16 @@
 
 name: Actions 😎
 
-on: [push, pull_request]
-
+on: 
+  push:
+    branches:
+      - main
+      - CI-Setup
+  pull_request:
+    branches:
+      - main
+      - CI-Setup
+      
 jobs:
   buildAndTestForLinuxBasedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
