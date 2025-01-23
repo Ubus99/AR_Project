@@ -18,6 +18,7 @@ jobs:
         targetPlatform:
           - iOS # Build an iOS player.
           - Android # Build an Android player.
+          
     steps:
       - uses: actions/checkout@v4
         with:
@@ -63,7 +64,8 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+          #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+          allowDirtyBuild: true
 
       # Return License
       - uses: game-ci/unity-return-license@v2
