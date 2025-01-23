@@ -74,8 +74,8 @@ jobs:
           allowDirtyBuild: true
 
       # Return License
-      - uses: game-ci/unity-return-license@v2
-        if: always()
+      #- uses: game-ci/unity-return-license@v2
+      #  if: always()
           
       - uses: actions/upload-artifact@v4
         with:
