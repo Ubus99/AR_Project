@@ -1,11 +1,11 @@
 #from https://game.ci/docs/github/getting-started/ 
 
-name: Actions 😎
+name: Actions
 
 on: [push, pull_request]
 
 jobs:
-  buildAndTestForLinuxBasedPlatforms:
+  buildAndTest:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
@@ -20,11 +20,13 @@ jobs:
           - Android # Build an Android player.
           
     steps:
+      # Checkout
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           lfs: true
-          
+      
+      # Cache
       - uses: actions/cache@v4
         with:
           path: ${{ matrix.projectPath }}/Library
@@ -35,7 +37,8 @@ jobs:
             Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
             Library-${{ matrix.projectPath }}-
             Library-
-            
+      
+      # Test
       - uses: game-ci/unity-test-runner@v4
         id: testRunner
         env:
@@ -47,14 +50,16 @@ jobs:
           unityVersion: ${{ matrix.unityVersion }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           
+      # Test results
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Test results (all modes)
+          name: Test results for ${{ matrix.testMode }}
           path: ${{ steps.testRunner.outputs.artifactsPath }}
       - if: matrix.targetPlatform == 'Android'
         uses: jlumbroso/free-disk-space@v1.2.0
         
+      # Build
       - uses: game-ci/unity-builder@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_SERIAL }}
