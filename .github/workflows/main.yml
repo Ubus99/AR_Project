@@ -90,11 +90,12 @@ jobs:
       - name: Store Artifacts  
         uses: actions/upload-artifact@v4
         with:
-          name: Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}
-          path: build/${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
 
       - name: Release Artifacts
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}"
+          tag: ${{ steps.myBuildStep.outputs.buildVersion }}
+          artifacts: "Build-${{ matrix.targetPlatform }}"
 
