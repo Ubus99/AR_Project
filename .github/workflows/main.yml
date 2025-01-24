@@ -23,6 +23,8 @@ jobs:
         targetPlatform:
           - iOS # Build an iOS player.
           - Android # Build an Android player.
+    outputs:
+      versionNumber: ${{ steps.myBuildStep.outputs.buildVersion }}
           
     steps:
       # Checkout
