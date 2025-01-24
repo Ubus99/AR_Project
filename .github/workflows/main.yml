@@ -108,5 +108,5 @@ jobs:
     - name: release
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ steps.myBuildStep.outputs.buildVersion }}
+        tag: ${{ needs.myBuildStep.outputs.buildVersion }}
         artifacts: "Build-*"
