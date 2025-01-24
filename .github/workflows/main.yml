@@ -95,7 +95,7 @@ jobs:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
 
-  build:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -103,12 +103,10 @@ jobs:
     
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: Build-${{ matrix.targetPlatform }}
+      uses: actions/download-artifact@v4
         
     - name: release
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ steps.myBuildStep.outputs.buildVersion }}
-        artifacts: "Build-*.zip"
+        artifacts: "Build-*"
