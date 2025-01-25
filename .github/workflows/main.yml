@@ -13,6 +13,8 @@ jobs:
   buildAndTest:
     name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
@@ -91,7 +93,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
-          filename: 'Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.versionNumber }}.zip'
+          filename: 'Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}.zip'
           directory: build/
           path: ${{ matrix.targetPlatform }}
 
