@@ -9,23 +9,23 @@ on:
     branches:
       - CI-Setup
 
-# Define matrix strategy as a common variable
-env:
-  - unityVersion: 2022.3.20f1
-  - targetPlatform:[ iOS, Android]
-  - projectPath: .
-
 jobs:
-  test:
-    name: Test for ${{ $targetPlatform }}
+  buildAndTest:
+    name: Build for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        projectPath": ["."]
+        projectPath:
+          - .
+        unityVersion:
+          - 2022.3.20f1
+        targetPlatform:
+          - iOS # Build an iOS player.
+          - Android # Build an Android player.
     outputs:
-      versionNumber: ${{ steps.myTestStep.outputs.buildVersion }}
-
+      versionNumber: ${{ steps.myBuildStep.outputs.buildVersion }}
+          
     steps:
       # Checkout
       - name: Checkout
@@ -39,11 +39,13 @@ jobs:
       - name: Setup cache
         uses: actions/cache@v4
         with:
-          path: ${{ $projectPath }}/Library
-          key: Library-${{ $projectPath }}-${{ $targetPlatform }}-${{ hashFiles($projectPath) }}
+          path: ${{ matrix.projectPath }}/Library
+          key:
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
+            hashFiles(matrix.projectPath) }}
           restore-keys: |
-            Library-${{ $projectPath }}-${{ $targetPlatform }}-
-            Library-${{ $projectPath }}-
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
+            Library-${{ matrix.projectPath }}-
             Library-
       
       # Test
@@ -55,47 +57,20 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          projectPath: ${{ $projectPath }}
-          unityVersion: ${{ $unityVersion }}
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           
       # Test results
-      - name: Store test results
+      - name: Store report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: Test results for ${{ $targetPlatform }}
+          name: Test results for ${{ matrix.targetPlatform }}
           path: ${{ steps.testRunner.outputs.artifactsPath }}
-
-  build:
-    name: Build for ${{ $targetPlatform }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        targetPlatform: ${{ variables.matrixStrategy.targetPlatform }}
-        unityVersion: ${{ variables.matrixStrategy.unityVersion }}
-
-    steps:
-      # Checkout
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.ref }}
-          lfs: true
-      
-      # Cache
-      - name: Setup cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ $projectPath }}/Library
-          key: Library-${{ $projectPath }}-${{ $targetPlatform }}-${{ hashFiles($projectPath) }}
-          restore-keys: |
-            Library-${{ $projectPath }}-${{ $targetPlatform }}-
-            Library-${{ $projectPath }}-
-            Library-
-      
+      - if: matrix.targetPlatform == 'Android'
+        uses: jlumbroso/free-disk-space@v1.2.0
+        
       # Build
       - name: Build
         uses: game-ci/unity-builder@v4
@@ -105,19 +80,22 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          projectPath: ${{ $projectPath }}
-          unityVersion: ${{ $unityVersion }}
-          targetPlatform: ${{ $targetPlatform }}
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
           versioning: Semantic
           allowDirtyBuild: true
 
-      # Store artifacts
-      - name: Store Build Artifacts
+      # Return License
+      #- uses: game-ci/unity-return-license@v2
+      #  if: always()
+      
+      - name: Store Artifacts  
         uses: actions/upload-artifact@v4
         with:
-          name: Build-${{ $targetPlatform }}
-          path: build/${{ $targetPlatform }}/*.apk  # Or specify folder zipped option here.
-
+          name: Build-${{ matrix.targetPlatform }}
+          path: build/${{ matrix.targetPlatform }}
 
   release:
     runs-on: ubuntu-latest
@@ -133,4 +111,4 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         tag: ${{ needs.buildAndTest.outputs.versionNumber }}
-        artifacts: "Build-*/*"
+        artifacts: "Build-**/**"
