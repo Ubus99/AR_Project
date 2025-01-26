@@ -8,16 +8,11 @@ on:
       - CI-Setup
     tags:
       - '**'
-  pull_request:
-    tags:
-      - '**'
 
 jobs:
   buildAndTest:
     name: Build for ${{ matrix.targetPlatform }}
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
+    runs-on: ubuntu-latest          
     strategy:
       fail-fast: false
       matrix:
