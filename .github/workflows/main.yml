@@ -126,7 +126,7 @@ jobs:
           versioning: Semantic
           allowDirtyBuild: true
       
-      - run:
+      - run: |
           ls
           cd build
           ls
