@@ -66,7 +66,9 @@ jobs:
         with:
           name: Test results for ${{ matrix.targetPlatform }}
           path: ${{ steps.testRunner.outputs.artifactsPath }}
-      - if: matrix.targetPlatform == 'Android'
+
+      - name: free disk space
+        if: matrix.targetPlatform == 'Android'
         uses: jlumbroso/free-disk-space@v1.2.0
         
   Build:
@@ -124,14 +126,17 @@ jobs:
           versioning: Semantic
           allowDirtyBuild: true
       
-      - run: ls
+      - run:
+          ls
+          cd build
+          ls
 
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
           filename: 'Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}.zip'
-          directory: ${{ steps.myBuildStep.outputs.artifactsPath }}
+          directory: build
           path: ${{ matrix.targetPlatform }}
 
       - name: Store Artifacts  
