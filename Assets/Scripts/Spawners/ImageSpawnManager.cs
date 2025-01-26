@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using Quaternion = UnityEngine.Quaternion;
-using Random = UnityEngine.Random;
 
 namespace Spawners
 {
@@ -22,8 +20,12 @@ namespace Spawners
         public GameObject printerPrefab;
 
         ARTrackedImageManager _arTrackedImageManager;
-        GameObject _chargerInstance;
-        GameObject _printerInstance;
+
+        InstanceManager _chargerManager;
+        TrackableId _chargerReference;
+
+        InstanceManager _printerManager;
+        TrackableId _printerReference;
 
         public PrinterUIController printerUI { get; private set; }
         public ChargerUIController chargerUI { get; private set; }
@@ -33,6 +35,8 @@ namespace Spawners
         void Awake()
         {
             _arTrackedImageManager = FindObjectOfType<ARTrackedImageManager>();
+            _chargerManager = gameObject.AddComponent<SyncSpawner>();
+            _printerManager = gameObject.AddComponent<SyncSpawner>();
         }
 
         void OnEnable()
@@ -58,23 +62,25 @@ namespace Spawners
                 switch (img.referenceImage.name)
                 {
                     case "ar_marker_1":
-                        if (_printerInstance)
+                        if (_printerManager.instance)
                             return;
-                        _printerInstance = TryInstantiateModel(
-                            img,
-                            printerPrefab,
-                            visibleObjects[PossibleObjects.Printer]);
-                        printerUI = _printerInstance.GetComponentInChildren<PrinterUIController>();
+                        _printerManager.Spawn(printerPrefab, img.transform.position);
+                        _printerManager.OnInstantiationComplete += () =>
+                        {
+                            _printerReference = img.trackableId;
+                            printerUI = _printerManager.instance.GetComponentInChildren<PrinterUIController>();
+                        };
                         break;
 
                     case "ar_marker_2":
-                        if (_chargerInstance)
+                        if (_chargerManager.instance)
                             return;
-                        _chargerInstance = TryInstantiateModel(
-                            img,
-                            chargerPrefab,
-                            visibleObjects[PossibleObjects.Charger]);
-                        chargerUI = _chargerInstance.GetComponentInChildren<ChargerUIController>();
+                        _chargerManager.Spawn(chargerPrefab, img.transform.position);
+                        _printerManager.OnInstantiationComplete += () =>
+                        {
+                            _chargerReference = img.trackableId;
+                            chargerUI = _chargerManager.instance.GetComponentInChildren<ChargerUIController>();
+                        };
                         break;
 
                     default:
@@ -84,39 +90,28 @@ namespace Spawners
             }
         }
 
-        static GameObject TryInstantiateModel(ARTrackedImage img, GameObject prefab, bool visibility)
-        {
-
-            var go = Instantiate(
-                prefab,
-                img.transform.parent,
-                false);
-            go.SetActive(visibility);
-
-#if UNITY_EDITOR
-            try
-            {
-                go.GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-#endif
-            return go;
-        }
-
         public void Update3DModels()
         {
             foreach (var img in _arTrackedImageManager.trackables)
             {
-                Update3DModel(img,
-                    visibleObjects[PossibleObjects.Charger],
-                    _chargerInstance);
-                Update3DModel(img,
-                    visibleObjects[PossibleObjects.Printer],
-                    _printerInstance);
+                if (img.trackableId == _chargerReference)
+                {
+                    if (!_chargerManager.instance)
+                        return;
+
+                    Update3DModel(img,
+                        visibleObjects[PossibleObjects.Charger],
+                        _chargerManager.instance);
+                }
+                else if (img.trackableId == _printerReference)
+                {
+                    if (!_printerManager.instance)
+                        return;
+
+                    Update3DModel(img,
+                        visibleObjects[PossibleObjects.Printer],
+                        _printerManager.instance);
+                }
             }
         }
 
@@ -141,13 +136,18 @@ namespace Spawners
 
             instTransf.gameObject.SetActive(true);
             instTransf.position = imgTransf.position;
-            if (Quaternion.Angle(instTransf.rotation, imgTransf.rotation) > 2)
-                instTransf.rotation.SetLookRotation(img.transform.forward);
+            if (Quaternion.Angle(instTransf.rotation, imgTransf.rotation) > 10)
+            {
+                var lookDirection = imgTransf.forward;
+                instTransf.rotation.SetLookRotation(lookDirection);
+            }
 
 #if UNITY_EDITOR
-            Debug.DrawRay(imgTransf.position, imgTransf.right / 2, Color.red);
-            Debug.DrawRay(imgTransf.position, imgTransf.up / 2, Color.green);
-            Debug.DrawRay(imgTransf.position, imgTransf.forward / 2, Color.blue);
+/*
+Debug.DrawRay(imgTransf.position, imgTransf.right / 2, Color.red);
+Debug.DrawRay(imgTransf.position, imgTransf.up / 2, Color.green);
+Debug.DrawRay(imgTransf.position, imgTransf.forward / 2, Color.blue);
+*/
 #endif
 
         }

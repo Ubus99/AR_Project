@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 
 namespace Spawners
 {
-    public class EggSpawnManager : MonoBehaviour
+    public class EggSpawnManager : AsyncSpawner
     {
-        public static string EggName = "Egg";
+        public const string EggTag = "EasterEgg";
+        public const int MacIdx = 0;
+        public const int CardIdx = 1;
+        public const int InkIdx = 2;
 
-        public GameObject eggPrefab;
+        public List<GameObject> eggPrefab = new List<GameObject>();
         public float requiredArea = 75;
 
         ARPlaneManager _planeManager;
         List<ARPlane> _planes = new List<ARPlane>();
 
-        public GameObject eggInstance { get; private set; }
+        public int eggPtr { private get; set; } // spaghetti code... fuck it
 
         float surfaceArea
         {
@@ -47,6 +50,11 @@ namespace Spawners
             _planeManager.planesChanged -= OnUpdatePlanes;
         }
 
+        protected override void _OnInstantiationComplete()
+        {
+            instance.tag = EggTag;
+        }
+
         void OnUpdatePlanes(ARPlanesChangedEventArgs arPlanesChangedEventArgs)
         {
             var buffer = new List<ARPlane>();
@@ -67,24 +75,30 @@ namespace Spawners
 
         public void SpawnEgg()
         {
-            if (eggPrefab == null || eggInstance != null || _planeManager.trackables.count == 0)
+            if (_planeManager.trackables.count == 0) // make sure there is ground
                 return;
 
             var targetPlane = _planes[Random.Range(0, _planes.Count - 1)];
 
-            var offset = targetPlane.center - (Vector3)targetPlane.extents;
+            var diagonal = new Vector3(targetPlane.extents.x, 0, targetPlane.extents.y);
+            var offset = targetPlane.center - diagonal;
+            DebugDrawer.Lines["SpawnManager"] =
+                new DebugDrawer.Line
+                {
+                    A = offset,
+                    B = targetPlane.center + diagonal,
+                };
             var point = offset + Vector3.Scale(
-                targetPlane.extents,
+                diagonal,
                 new Vector3(Random.value, Random.value, Random.value)
             );
 
-            eggInstance = Instantiate(eggPrefab, point, Quaternion.identity);
-            eggInstance.name = EggName;
+            Spawn(eggPrefab[eggPtr], point);
         }
 
         public void DestroyEgg()
         {
-            Destroy(eggInstance);
+            Destroy();
         }
     }
 }

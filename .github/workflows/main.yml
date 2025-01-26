@@ -1,0 +1,123 @@
+#from https://game.ci/docs/github/getting-started/ 
+
+name: Actions
+
+on: 
+  push:
+    branches:
+      - CI-Setup
+    tags:
+      - '**'
+  pull_request:
+    tags:
+      - '**'
+
+jobs:
+  buildAndTest:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - .
+        unityVersion:
+          - 2022.3.20f1
+        targetPlatform:
+          - iOS # Build an iOS player.
+          - Android # Build an Android player.
+    outputs:
+      versionNumber: ${{ steps.myBuildStep.outputs.buildVersion }}
+          
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          lfs: true
+      
+      # Cache
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key:
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
+            hashFiles(matrix.projectPath) }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
+            Library-${{ matrix.projectPath }}-
+            Library-
+      
+      # Test
+      - name: Run Tests
+        uses: game-ci/unity-test-runner@v4
+        id: testRunner
+        env:
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          
+      # Test results
+      - name: Store report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Test results for ${{ matrix.targetPlatform }}
+          path: ${{ steps.testRunner.outputs.artifactsPath }}
+      - if: matrix.targetPlatform == 'Android'
+        uses: jlumbroso/free-disk-space@v1.2.0
+        
+      # Build
+      - name: Build
+        uses: game-ci/unity-builder@v4
+        id: myBuildStep
+        env:
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: ${{ matrix.projectPath }}
+          unityVersion: ${{ matrix.unityVersion }}
+          targetPlatform: ${{ matrix.targetPlatform }}
+          #customParameters: '-myParameter myValue -myBoolean -ThirdParameter andItsValue'
+          versioning: Semantic
+          allowDirtyBuild: true
+      
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          filename: 'Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}.zip'
+          directory: build/
+          path: ${{ matrix.targetPlatform }}
+
+      - name: Store Artifacts  
+        uses: actions/upload-artifact@v4
+        with:
+          name: Build-${{ matrix.targetPlatform }}.zip
+          path: build/${{ matrix.targetPlatform }}.zip
+
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: buildAndTest
+    
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4  
+
+    - name: release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ needs.buildAndTest.outputs.versionNumber }}
+        artifacts: "Build-**.zip"
