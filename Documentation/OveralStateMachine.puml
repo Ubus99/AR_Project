@@ -6,48 +6,59 @@ hide empty description
 skinparam backgroundColor transparent
 
 [*] -> StartState
+state StartState{
+StartState: Exit: Switch to AR
+
+    [*] -> SplashScreen
+    SplashScreen -> [*]
+}
 StartState -> EasterEgg1: UserConfirm
 
 EasterEgg1: Entry:  Spawn Object
-EasterEgg1: Do:     <NA>
+EasterEgg1: Do:     Check Raycast
 EasterEgg1: Exit:   Destroy Object
-EasterEgg1 -> Game1: EggTouched
+EasterEgg1 -> UploadGame: EggTouched
 
-state Game1 {
-    Game1: Entry:  ShowUI
-    Game1: Do:     SubState
-    Game1: Exit:   HideUI
+state UploadGame {
+    UploadGame: Entry:  ShowUI
+    UploadGame: Do:     SubState
+    UploadGame: Exit:   HideUI
 
-    [*] -> [*]
+    [*] -> UploadUI
+    UploadUI -> [*]
 }
-Game1 -> EasterEgg2
+UploadGame -> EasterEgg2
 
 EasterEgg2: Entry:  Spawn Object
-EasterEgg2: Do:     <NA>
+EasterEgg2: Do:     Check Raycast
 EasterEgg2: Exit:   Destroy Object
-EasterEgg2 --> Game2: EggTouched
+EasterEgg2 --> ChargeGame: EggTouched
 
-state Game2 {
-    Game2: Entry:  <NA>
-    Game2: Do:     SubState
-    Game2: Exit:   Destroy Object
+state ChargeGame {
+    ChargeGame: Entry:  <NA>
+    ChargeGame: Do:     SubState
+    ChargeGame: Exit:   Destroy Object
 
-    [*] -> [*]
+    [*] -> SpawnModel1
+    SpawnModel1 -down-> ChargerFlow
+    ChargerFlow -left-> [*]
 }
-Game2 -left> EasterEgg3
+ChargeGame -left> EasterEgg3
 
 EasterEgg3: Entry:  Spawn Object
-EasterEgg3: Do:     <NA>
+EasterEgg3: Do:     Check Raycast
 EasterEgg3: Exit:   Destroy Object
-EasterEgg3 -left> Game3: EggTouched
+EasterEgg3 -left> PrintGame: EggTouched
 
-state Game3 {
-    Game3: Entry:  <NA>
-    Game3: Do:     SubState
-    Game3: Exit:   Destroy Object
+state PrintGame {
+    PrintGame: Entry:  <NA>
+    PrintGame: Do:     SubState
+    PrintGame: Exit:   Destroy Object
 
-    [*] -> [*]
+    [*] -> SpawnModel2
+    SpawnModel2 -down-> PrinterFlow
+    PrinterFlow -left-> [*]
 }
-Game3 -left> [*]
+PrintGame -left> [*]
 
 @enduml

@@ -2,12 +2,15 @@
 
 name: Actions
 
-on:
+on: 
   push:
-    tags:
-      - '**'
     branches:
       - CI-Setup
+    tags:
+      - '**'
+  pull_request:
+    tags:
+      - '**'
 
 jobs:
   buildAndTest:
