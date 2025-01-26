@@ -10,8 +10,8 @@ on:
       - '**'
 
 jobs:
-  buildAndTest:
-    name: Build for ${{ matrix.targetPlatform }}
+  Test:
+    name: Test for ${{ matrix.targetPlatform }}
     runs-on: ubuntu-latest          
     strategy:
       fail-fast: false
@@ -23,8 +23,6 @@ jobs:
         targetPlatform:
           - iOS # Build an iOS player.
           - Android # Build an Android player.
-    outputs:
-      versionNumber: ${{ steps.myBuildStep.outputs.buildVersion }}
           
     steps:
       # Checkout
@@ -71,6 +69,45 @@ jobs:
       - if: matrix.targetPlatform == 'Android'
         uses: jlumbroso/free-disk-space@v1.2.0
         
+  Build:
+    name: Build for ${{ matrix.targetPlatform }}
+    runs-on: ubuntu-latest   
+    needs: Test       
+    strategy:
+      fail-fast: false
+      matrix:
+        projectPath:
+          - .
+        unityVersion:
+          - 2022.3.20f1
+        targetPlatform:
+          - iOS # Build an iOS player.
+          - Android # Build an Android player.
+    outputs:
+      versionNumber: ${{ steps.myBuildStep.outputs.buildVersion }}
+          
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+          lfs: true
+
+      # Cache
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ matrix.projectPath }}/Library
+          key:
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-${{
+            hashFiles(matrix.projectPath) }}
+          restore-keys: |
+            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}-
+            Library-${{ matrix.projectPath }}-
+            Library-
+
       # Build
       - name: Build
         uses: game-ci/unity-builder@v4
@@ -87,12 +124,14 @@ jobs:
           versioning: Semantic
           allowDirtyBuild: true
       
+      - run: ls
+
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
           filename: 'Build-${{ matrix.targetPlatform }}-${{ steps.myBuildStep.outputs.buildVersion }}.zip'
-          directory: build/
+          directory: ${{ steps.myBuildStep.outputs.artifactsPath }}
           path: ${{ matrix.targetPlatform }}
 
       - name: Store Artifacts  
@@ -105,7 +144,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    needs: buildAndTest
+    needs: Build
     
     steps:
     - name: Download artifacts
